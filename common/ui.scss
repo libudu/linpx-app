@@ -1,0 +1,18 @@
+.fr-main-button{
+	background: $main-color;
+	box-shadow: 0rpx 0rpx 8px $main-color-deep;
+	font-size: 40rpx;
+	margin: 100rpx 150rpx;
+	font-weight: bold;
+}
+// 自定义字体
+@font-face {
+    font-family: "GlowSansTC";
+    src:url('static/font/GlowSansTC-Normal-Heavy.otf');
+	font-weight: bold;
+}
+@font-face {
+    font-family: "GlowSansTC";
+    src:url('static/font/GlowSansTC-Normal-Regular.otf');
+	font-weight: normal;
+}

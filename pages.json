@@ -1,0 +1,104 @@
+{
+	"pages": [
+		{
+            "path" : "pages/launch/launch",
+            "style" : {
+				"navigationStyle":"custom",
+				"disableScroll":true
+			}
+        }
+		,{
+            "path" : "pages/novels/novels",
+            "style" : {
+				"navigationBarTitleText":"本地"
+			}
+        }
+        ,{
+            "path" : "pages/authors/authors",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/search/search",
+            "style" : {
+				"navigationBarTitleText":"搜索"
+			}
+        }
+        ,{
+            "path" : "pages/search_novels/search_novels",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/novel_detail/novel_detail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/novels_fav/novels_fav",
+            "style" :
+            {
+                "navigationBarTitleText": "收藏"
+            }
+        }
+        ,{
+            "path" : "pages/novels_local/novels_local",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "本地"
+            }
+        }
+        ,{
+            "path" : "pages/user/user",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/novels_recently/novels_recently",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#e0a34d",
+		"navigationStyle":"custom"
+	},
+		
+	"tabBar":{
+		"color": "#888",
+		"fontSize":"16px",
+		"selectedColor": "#e0a34d",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"height":"60px",
+		"iconWidth":"30px",
+		"list": [
+		{
+			"pagePath": "pages/search/search",
+			"iconPath":"static/tabBar/se_idle.png",
+			"selectedIconPath":"static/tabBar/se_hover.png"
+		},
+		{
+			"pagePath": "pages/novels_fav/novels_fav",
+			"iconPath":"static/tabBar/st_idle.png",
+			"selectedIconPath":"static/tabBar/st_hover.png"
+		},
+		{
+			"pagePath": "pages/novels_local/novels_local",
+			"iconPath":"static/tabBar/sa_idle.png",
+			"selectedIconPath":"static/tabBar/sa_hover.png"
+		},
+		{
+			"pagePath": "pages/user/user",
+			"iconPath":"static/tabBar/pe_idle.png",
+			"selectedIconPath":"static/tabBar/pe_hover.png"
+		}]
+	}
+}
