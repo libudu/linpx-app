@@ -8,7 +8,7 @@
 						<uni-icons :color="color" :type="leftIcon" size="30" />
 					</view>
 					<view :class="{ 'uni-navbar-btn-icon-left': !leftIcon.length }" class="uni-navbar-btn-text uni-navbar__content_view" v-if="leftText.length">
-						<text :style="{ color: color, fontSize: '14px' }">{{ leftText }}</text>
+						<text :style="{ color: color}">{{ leftText }}</text>
 					</view>
 					<slot name="left" />
 				</view>
@@ -128,7 +128,8 @@
 </script>
 
 <style scoped lang="scss">
-	$text-size: 40rpx;
+	$text-size: 50rpx;
+	$text-size-s: 40rpx;
 	
 	.uni-nav-bar-text {
 		font-size: $text-size;
@@ -149,6 +150,7 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
+		font-size: $text-size-s;
 		align-items: center;
 		flex-direction: row;
 		/* background-color: #FFFFFF;

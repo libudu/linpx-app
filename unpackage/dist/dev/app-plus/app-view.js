@@ -2883,30 +2883,47 @@ var render = function() {
     [
       _c("uni-nav-bar", { attrs: { _i: 1 } }),
       _c("lp-search-input", { attrs: { _i: 2 } }),
+      _c("v-uni-button", {
+        staticStyle: { height: "100rpx" },
+        attrs: { _i: 3 },
+        on: {
+          click: function($event) {
+            return _vm.$handleViewEvent($event)
+          }
+        }
+      }),
       _c(
         "v-uni-view",
-        { staticClass: _vm._$g(3, "sc"), attrs: { _i: 3 } },
-        _vm._l(_vm._$g(4, "f"), function(item, index, $20, $30) {
+        {
+          staticClass: _vm._$g(4, "sc"),
+          attrs: { _i: 4 },
+          on: {
+            click: function($event) {
+              return _vm.$handleViewEvent($event)
+            }
+          }
+        },
+        _vm._l(_vm._$g(5, "f"), function(item, index, $20, $30) {
           return _c(
             "v-uni-view",
             {
               key: item,
-              staticClass: _vm._$g("4-" + $30, "sc"),
-              style: _vm._$g("4-" + $30, "s"),
-              attrs: { _i: "4-" + $30 }
+              staticClass: _vm._$g("5-" + $30, "sc"),
+              style: _vm._$g("5-" + $30, "s"),
+              attrs: { _i: "5-" + $30 }
             },
             [
-              _vm._$g("5-" + $30, "i")
+              _vm._$g("6-" + $30, "i")
                 ? _c("v-uni-image", {
-                    staticClass: _vm._$g("5-" + $30, "sc"),
+                    staticClass: _vm._$g("6-" + $30, "sc"),
                     attrs: {
                       mode: "aspectFit",
-                      src: _vm._$g("5-" + $30, "a-src"),
-                      _i: "5-" + $30
+                      src: _vm._$g("6-" + $30, "a-src"),
+                      _i: "6-" + $30
                     }
                   })
                 : _vm._e(),
-              _vm._v(_vm._$g("4-" + $30, "t1-0"))
+              _vm._v(_vm._$g("5-" + $30, "t1-0"))
             ],
             1
           )

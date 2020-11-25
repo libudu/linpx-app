@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import App from './App'
 
-import {myRequest, getPixivNovelDetail} from './util/api.js'
-Vue.prototype.$myRequest = myRequest
-Vue.prototype.$getPixivNovelDetail = getPixivNovelDetail
+// API全局方法
+var api = require('./util/api.js');
+Vue.prototype.$myRequest = api.myRequest
+Vue.prototype.$myCacheRequest = api.myCacheRequest
+Vue.prototype.$getPixivNovelDetail = api.getPixivNovelDetail
+Vue.prototype.$getPixivUserNovels = api.getPixivUserNovels
 
 Vue.config.productionTip = false
 
@@ -23,7 +26,7 @@ let initStorage = function(name, value){
 }
 initStorage('MaxRecentNovels', 50)
 
-// 初始化一些缓存到全局变量
+// 加载持久数据到全局变量
 let initStorageToGlobal = function(storageName){
 	app.globalData[storageName] = uni.getStorageSync(storageName)
 }

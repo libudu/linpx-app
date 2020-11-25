@@ -1,18 +1,18 @@
 <template>
 	<view class="main">
 		<view class="search">
-			<picker class="search-picker" :range="searchTypeList" :value="searchTypeIndex"
-			@change="searchTypeIndex=$event.detail.value">
-				{{searchTypeList[searchTypeIndex]}}
+			<picker class="search-picker" :range="searchTypeList" range-key="name" :value="searchTypeIndex"
+			@change="searchTypeChanged">
+				{{searchTypeName}}
 				<view class="search-picker-tip">▽</view>
 			</picker>
 			
-			<input class="search-input" placeholder="请输入" />
+			<input class="search-input" :placeholder="searchInputTip" @input="userInput=$event.detail.value" :type="searchInputType"  />
 			
 			<view class="search-icon" @click="startSearch">
-				<uni-icons color="#999999" class="uni-searchbar__box-icon-search" size="26" type="search" />
+				<uni-icons color="#999999" class="uni-searchbar__box -icon-search" size="26" type="search" />
 			</view>
-		</view>
+		</view> 
 	</view>
 </template>
 
@@ -20,15 +20,53 @@
 	export default {
 		data() {
 			return {
-				searchTypeList:['Pixiv作者','Pixiv作品','关键字'],
+				userInput:"",
+				searchTypeList:[
+					{
+						'name': 'Pixiv作者',
+						'tip': '请输入作者id',
+						'type': 'number'
+					},
+					{
+						'name': 'Pixiv作品',
+						'tip': '请输入作品id',
+						'type': 'number'
+					},
+					{
+						'name': '关键字',
+						'tip': '请输入搜索内容',
+						'type': 'text'
+					}
+				],
 				searchTypeIndex:0
 			};
 		},
+		props:[
+			'type'
+		],
+		computed:{
+			searchType(){
+				return this.searchTypeList[this.searchTypeIndex]
+			},
+			searchTypeName(){
+				return this.searchType.name;
+			},
+			searchInputTip(){
+				return this.searchType.tip;
+			},
+			searchInputType(){
+				return this.searchType.type;
+			}
+		},
 		methods:{
 			startSearch(){
-				uni.showToast({
-					title:"123"
+				this.$emit('startSearch', {
+					searchType:this.searchTypeName,
+					userInput:this.userInput
 				})
+			},
+			searchTypeChanged(e){
+				this.searchTypeIndex = e.detail.value
 			}
 		}
 	}

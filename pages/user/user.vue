@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar title="用户"></uni-nav-bar>
+		<lp-nav-bar title="用户" />
 		<view class="header">
 			<image class="user-side" src="../../static/logo/lbd.jpg"></image>
 			<view>
@@ -10,7 +10,7 @@
 		</view>
 		
 		<view class="body">
-			<view v-for="(item, index) in buttonList" :key="index" class="user-button">
+			<view v-for="(item, index) in buttonList" :key="index" class="user-button" @click="clickUserButton(item)">
 				{{item.name}}
 			</view>
 		</view>
@@ -23,22 +23,37 @@
 			return {
 				buttonList:[
 					{
-						'name':'设置'
+						'name':'设置',
+						'page':'setting'
 					},
 					{
-						'name':'高级'
+						'name':'高级',
+						'page':'advance'
 					},
 					{
-						'name':'关于'
+						'name':'关于',
+						'page':'about'
 					},
 					{
-						'name':'打钱'
+						'name':'打钱',
+						'page':'devote'
 					},
 					{
-						'name':'引导'
+						'name':'引导',
+						'page':'guide'
 					}
 				]
 			};
+		},
+		methods:{
+			clickUserButton(item){
+				if(item.page){
+					console.log("./user_"+item.page);
+					uni.navigateTo({
+						url:"./user_"+item.page
+					})
+				}
+			}
 		}
 	}
 </script>

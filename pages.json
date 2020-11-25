@@ -1,68 +1,38 @@
 {
 	"pages": [
 		{
-            "path" : "pages/launch/launch",
-            "style" : {
-				"navigationStyle":"custom",
-				"disableScroll":true
-			}
-        }
-		,{
-            "path" : "pages/novels/novels",
-            "style" : {
-				"navigationBarTitleText":"本地"
-			}
-        }
-        ,{
-            "path" : "pages/authors/authors",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/search/search",
-            "style" : {
-				"navigationBarTitleText":"搜索"
-			}
-        }
-        ,{
-            "path" : "pages/search_novels/search_novels",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/novel_detail/novel_detail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/novels_fav/novels_fav",
-            "style" :
-            {
-                "navigationBarTitleText": "收藏"
-            }
-        }
-        ,{
-            "path" : "pages/novels_local/novels_local",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "本地"
-            }
-        }
-        ,{
-            "path" : "pages/user/user",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "用户",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/novels_recently/novels_recently",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
+            "path" : "pages/launch/launch"
+        },
+		{
+            "path" : "pages/novels/novels"
+        },
+		{
+            "path" : "pages/authors/authors"
+        },
+		{
+            "path" : "pages/search/search"
+        },
+		{
+            "path" : "pages/search_novels/search_novels"
+        },
+		{
+            "path" : "pages/novel_detail/novel_detail"
+        },
+		{
+            "path" : "pages/novels_fav/novels_fav"
+        },
+		{
+            "path" : "pages/novels_local/novels_local"
+        },
+		{
+            "path" : "pages/user/user"
+        },
+		{
+            "path" : "pages/novels_recent/novels_recent"
+        },
+		{
+			"path":"pages/user/user_setting"
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
@@ -84,11 +54,6 @@
 			"pagePath": "pages/search/search",
 			"iconPath":"static/tabBar/se_idle.png",
 			"selectedIconPath":"static/tabBar/se_hover.png"
-		},
-		{
-			"pagePath": "pages/novels_fav/novels_fav",
-			"iconPath":"static/tabBar/st_idle.png",
-			"selectedIconPath":"static/tabBar/st_hover.png"
 		},
 		{
 			"pagePath": "pages/novels_local/novels_local",

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<lp-nav-bar title="本地" />
+		<lp-nav-bar type="back" title="设置" />
 	</view>
 </template>
 

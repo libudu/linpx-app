@@ -19,20 +19,6 @@
 			</view>
 		</uni-popup>
 		
-		<!-- 分栏 -->
-		<uni-segmented-control class="main-page-control" :current="page" :values="pageTitles"
-		@clickItem="page = $event.currentIndex;updateFavNovels();" activeColor="#e0a34d">
-		</uni-segmented-control>
-		
-		<view>todo:从本地文件添加、手动创建。从微博、b站添加</view>
-		
-		<view v-show="page == 0">
-			<lp-novel-list :novels="favNovels" />
-		</view>
-		
-		<view v-show="page == 1">
-			<lp-novel-list :novels="recentNovels" />
-		</view>
 	</view>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view>todo:重排版、直接保存到本地按钮、显示创作时间、下拉末刷新更多、标签等</view>
+		<lp-nav-bar type="back" title="搜索结果" />
 		<lp-novel-list :novels="novels" />
 	</view>
 </template>

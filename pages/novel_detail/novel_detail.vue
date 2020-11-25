@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<lp-nav-bar type="back" title="小说详情" />
 		<view class="novel-item">
 			<img-cache class="novel-cover" mode="widthFix" :src="novel.coverUrl"></img-cache>
 			<view class="novel-title">
@@ -41,11 +42,11 @@
 			}
 		},
 		async onLoad(option) {
-			const store_id = "pn"+option.id;
 			// 尝试获取小说信息
 			this.novel = await this.$getPixivNovelDetail(option.id)
 			// 添加到最近阅读
-			this.updateRecentNovels(store_id);
+			const storeId = "pn"+option.id;
+			this.updateRecentNovels(storeId);
 			// 根据小说内容设置标题
 			uni.setNavigationBarTitle({
 				title:this.novel.title

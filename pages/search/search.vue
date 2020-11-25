@@ -1,14 +1,13 @@
 <template>
 	<view>
-		<uni-nav-bar title="搜索"></uni-nav-bar>
+		<lp-nav-bar title="搜索" />
 		
-		<lp-search-input />
-		
+		<lp-search-input @startSearch="startSearch" />
 		<view class="card-button-group">
 			<view v-for="(item, index) in getShowCardButtonList" :key="index"
-			class="card-button" :style="item.style">
+			class="card-button" @click="clickCardButton(item.name)" :style="item.style">
 				<image v-if='item.icon' class="card-button-icon" mode="aspectFit" :src="item.icon"></image>
-				{{item.name}} 
+				<view class="card-button-text">{{item.name}}</view>
 			</view>
 		</view>
 	</view>
@@ -23,28 +22,39 @@
 						'name':'排行榜',
 						'show':true,
 						'open':false,
-						'icon':'../../static/emoji/good.png'
+						'icon':'../../static/emoji/good.png',
+						'style':{
+							background: "#aaa",
+							opacity:0.5
+						}
 					},
-					{
-						'name':'推荐',
-						'show':true,
-						'open':false,
-						'icon':'../../static/emoji/fire.png'
-					},
+					// {
+					// 	'name':'推荐',
+					// 	'show':true,
+					// 	'open':false,
+					// 	'icon':'../../static/emoji/fire.png'
+					// },
 					{
 						'name':'作者',
 						'show':true,
 						'open':false,
-						'icon':'../../static/emoji/sun.png'
+						'icon':'../../static/emoji/sun.png',
+						'style':{
+							background: "#aaa",
+							opacity:0.5
+						}
 					},
 					{
 						'name':'最近',
 						'show':true,
 						'open':false,
-						'icon':'../../static/emoji/drop.png',
-						'style':{
-							'background-image': 'linear-gradient(45deg, rgb(236,115,55) 0%, rgb(236,138,58) 25%, rgb(237,178,63) 75%, rgb(238,199,65) 100%)'
-						}
+						'icon':'../../static/emoji/drop.png'
+					},
+					{
+						'name':'收藏',
+						'show':true,
+						'open':false,
+						'icon':'../../static/emoji/star.png'
 					}
 				],
 				
@@ -68,53 +78,53 @@
 			}
 		},
 		methods:{
+			navigateTo(pageName){
+				uni.navigateTo({
+					url:`../${pageName}/${pageName}`
+				})
+			},
+			clickCardButton(e){
+				switch(e){
+					case '最近':
+						this.navigateTo("novels_recent");
+						break;
+					case '收藏':
+						this.navigateTo("novels_fav");
+						break;
+				}
+			},
 			// 根据输入，开始搜索
-			startSearch(){
-				console.log("start search!");
-				// if(){
-				this.searchPixivAuthor(this.pixivId);
-				// }
+			async startSearch(option){
+				switch(option.searchType.toLowerCase()){
+					case 'pixiv作者':
+						this.searchPixivAuthor(option.userInput);
+						break;
+					case 'pixiv作品':
+						this.searchPixivNovel(option.userInput);
+						break;
+					case '关键字':
+						break;
+				}
+			},
+			// 搜索pixiv平台下，小说的内容
+			async searchPixivNovel(novelId){
+				let novel = await this.$getPixivNovelDetail(novelId);
+				if(novel){
+					uni.navigateTo({
+						url:"../novel_detail/novel_detail?id="+novelId
+					})
+				}
 			},
 			// 搜索pixiv平台下，用户的小说
-			async searchPixivAuthor(user_id){
+			async searchPixivAuthor(userId){
 				// 请等待
-				uni.showLoading({
-					title:"正在搜索，请稍等",
-					mask:true
-				})
-				// 开始搜索
-				const res = await this.$myRequest({
-					url:"user_novels?id="+user_id
-				})
-				// 等待结束
-				uni.hideLoading()
-				// 成功获取
-				if(res.statusCode == '200'){
-					// console.log(res.data);
-					// 作品数为0
-					if(res.data.novels.length == 0){
-						uni.showToast({
-							title:"不存在该作者或该作者小说数为0",
-							icon:"none"
-						})
-					}
-					else{
-						getApp().globalData.search_novels = res.data
-						uni.navigateTo({
-							url:"../search_novels/search_novels"
-						})
-					}
-				}
-				// 获取失败
-				else{
-					uni.showToast({
-						title:"连接失败，错误码："+res.statusCode+"，错误信息："+res.errMsg
+				let novels = await this.$getPixivUserNovels(userId)
+				if(novels){
+					uni.navigateTo({
+						url:"../search_novels/search_novels"
 					})
 				}
 			}
-		},
-		onLoad(option) {
-			
 		}
 	}
 </script>
@@ -136,13 +146,15 @@
 			box-shadow: 5rpx 5rpx 20rpx #ccc;
 			background: rgb(246,245,236);
 			
-			text-align: center;
-			font-size: 52rpx;
-			line-height: 180rpx;
-			font-weight: bold;
-			
 			overflow: hidden;
-			z-index: -1;
+			.card-button-text{
+				position: relative;
+				text-align: center;
+				font-size: 52rpx;
+				line-height: 180rpx;
+				font-weight: bold;
+				z-index: 1;
+			}
 			
 			.card-button-icon{
 				height: 180rpx;
@@ -151,7 +163,6 @@
 				left: -60rpx;
 				top: 20rpx;
 				opacity: 0.6;
-				z-index: -1;
 			}
 		}
 	}
