@@ -15,20 +15,20 @@
 			authorIds:Array
 		},
 		async created() {
-			let infos = [];
-			this.authorIds.forEach(async (authorId)=>{
-				let rowData = await this.$getPixivUserDetail(authorId, "");
-				if(rowData){
-					let user = rowData.user;
-					let info = {
-						id: String(user.id),
-						name: user.name,
-						comment: user.comment,
-						imageUrl: user.profile_image_urls.medium
-					};
-					infos.push(info);
-				}
-				this.authorsInfo = infos;
+			this.authorIds.forEach((authorId)=>{
+				this.$getPixivUserDetail(authorId, "").then((rowData)=>{
+					if(rowData){
+						let user = rowData.user;
+						let info = {
+							id: String(user.id),
+							name: user.name,
+							comment: user.comment,
+							imageUrl: user.profile_image_urls.medium
+						};
+						this.authorsInfo.push(info);
+					}
+				})
+				
 			})
 		}
 	}

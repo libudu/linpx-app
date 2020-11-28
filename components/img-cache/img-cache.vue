@@ -8,7 +8,7 @@
     :webp="webp"
     :show-menu-by-longpress="showMenuByLongpress"
     :style="[style]"
-    @tap.stop="fnEvent('click', $event)"
+    @tap.stop="preview?fnEvent('click', $event):''"
     @error="fnEvent('error', $event)"
     @load="fnEvent('load', $event)"
   >

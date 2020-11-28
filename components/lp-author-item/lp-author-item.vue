@@ -29,13 +29,8 @@
 			imageUrl:""
 		},
 		methods:{ 
-			async clickAuthor(){
-				let novels = await this.$getPixivUserNovels(this.id)
-				if(novels){
-					this.$navigateTo({
-						url:"../author_detail/author_detail?id="+this.id
-					})
-				}
+			clickAuthor(){
+				this.$gotoPixivAuthor(this.id)
 			}
 		}
 	}

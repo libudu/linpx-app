@@ -58,7 +58,6 @@
 					// 存在点击回调就调用
 					if(this.tryFavCallBack){
 						let result = await this.tryFavCallBack()
-						console.log(result);
 						// 返回true表示收藏成功，否则表示失败
 						if(!result){
 							this.showTip('收藏失败')

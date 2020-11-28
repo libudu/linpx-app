@@ -18,7 +18,7 @@
 					<view style="width: 10rpx;"></view>
 					<!-- 第二个按钮是菜单，还没做好 -->
 					<image mode="aspectFit" src="../../static/icon/menu.png" style="width: 80rpx;height: 80rpx;"
-					@click=""></image>
+					@click="clickMenu"></image>
 				</template>
 			</lp-nav-bar>
 			<view class="novel-intro" id="novelIntro" :style="{'opacity':novelIntroOpacity}">
@@ -28,7 +28,7 @@
 					<view class="novel-title">
 						{{novel.title}}
 					</view> 
-					<view class="novel-author">
+					<view class="novel-author" @click="clickAuthorName">
 						{{novel.userName}}
 					</view>
 					<lp-tags class="novel-tags" :tags="tags" />
@@ -57,6 +57,12 @@
 			};
 		},
 		methods:{
+			clickAuthorName(){
+				this.$gotoPixivAuthor(this.novel.userId)
+			},
+			clickMenu(){
+				this.$todoToast('菜单还没整上...')
+			},
 			// 点进详情后需要更新最近小说
 			updateRecentNovels(storeId){
 				// 取出原来的

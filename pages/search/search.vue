@@ -106,10 +106,7 @@
 						break;
 				}
 				if(waitFlag){
-					uni.showToast({
-						icon:"none",
-						title:"敬请期待..."
-					})
+					this.$todoToast()
 				}
 			},
 			// 根据输入，开始搜索
@@ -117,33 +114,15 @@
 				if(option.userInput){
 					switch(option.searchType.toLowerCase()){
 						case 'pixiv作者':
-							this.searchPixivAuthor(option.userInput);
+							this.$gotoPixivAuthor(option.userInput)
 							break;
 						case 'pixiv作品':
-							this.searchPixivNovel(option.userInput);
+							this.$gotoPixivNovel(option.userInput)
 							break;
 						case '关键字':
+							this.$todoToast("关键词搜索还没整...")
 							break;
 					}
-				}
-			},
-			// 搜索pixiv平台下，小说的内容
-			async searchPixivNovel(novelId){
-				let novel = await this.$getPixivNovelDetail(novelId);
-				if(novel){
-					this.$navigateTo({
-						url:"../novel_detail/novel_detail?id="+novelId
-					})
-				}
-			},
-			// 搜索pixiv平台下用户
-			async searchPixivAuthor(userId){
-				// 请等待
-				let novels = await this.$getPixivUserNovels(userId)
-				if(novels){
-					this.$navigateTo({
-						url:"../author_detail/author_detail"
-					})
 				}
 			}
 		}

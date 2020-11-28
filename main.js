@@ -3,13 +3,26 @@ import App from './App'
 
 // API全局方法
 var api = require('./util/api.js');
-
+// 请求
 Vue.prototype.$myRequest = api.myRequest
 Vue.prototype.$myCacheRequest = api.myCacheRequest
-
+// 接口
 Vue.prototype.$getPixivNovelDetail = api.getPixivNovelDetail
 Vue.prototype.$getPixivUserNovels = api.getPixivUserNovels
 Vue.prototype.$getPixivUserDetail = api.getPixivUserDetail
+
+// 路由全局方法
+var route = require('./util/route.js');
+Vue.prototype.$navTo = route.navTo
+Vue.prototype.$gotoPixivNovel = route.gotoPixivNovel
+Vue.prototype.$gotoPixivAuthor = route.gotoPixivAuthor
+
+
+Vue.prototype.$todoToast = (title)=>uni.showToast({
+	title: title || '敬请期待...',
+	icon: "none",
+	duration: 1000
+})
 
 Vue.prototype.$navigateTo = (option) => {
 	uni.navigateTo(Object.assign({

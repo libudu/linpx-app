@@ -49,7 +49,7 @@ export const myCacheRequest = async (options)=>{
 	return undefined
 }
 
-// 获取小说内容（自动缓存）
+// 【缓存】获取小说内容
 export const getPixivNovelDetail = async (id, prefix="pn")=>{
 	let storeId = prefix + id
 	// 没有前缀，id中已包含前缀，需要去掉
@@ -77,7 +77,7 @@ export const getPixivNovelDetail = async (id, prefix="pn")=>{
 		})
 		return undefined
 	}
-	// 存在则保存返回
+	// 存在则保存
 	uni.setStorageSync(storeId, novel);
 	return novel
 }
@@ -103,7 +103,7 @@ export const getPixivUserNovels = async (id)=>{
 }
 
 
-// 获得一个作者的详细信息
+// 【缓存】获得一个作者的详细信息
 export const getPixivUserDetail = async (id)=>{
 	let userInfo = await myCacheRequest({
 		url: "user_detail?id="+id,
@@ -121,6 +121,6 @@ export const getPixivUserDetail = async (id)=>{
 		})
 		return undefined
 	}
-	uni.setStorageSync('pa'+id, userInfo)
+	//uni.setStorageSync('pa'+id, userInfo)
 	return userInfo
 }

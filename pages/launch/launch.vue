@@ -8,20 +8,19 @@
 				<image class="pic-logo" src="../../static/logo/pic_logo.png" mode="aspectFit"></image>
 				<image class="word-logo" src="../../static/logo/word_logo.png" mode="aspectFit"></image>
 			</view>
-		<!-- 		<view class="launch-tips">
-					<view class="launch-tips-title">使用须知：</view>
+				<view class="launch-tips">
+					<!-- <view class="launch-tips-title">使用须知：</view> -->
 					<text>
-						1、当前为极早期测试版，仅供体验效果。后续更新几乎一定会完全清空本地数据。
-						2、当前后端采用的是heroku虚拟主机免费版，无法支撑过多用户，进入休眠后重启至少有10秒延迟。
-						3、开发菜鸟，欢迎指点，轻喷。
-						4、欢迎打赏，有任何问题欢迎联系，微博@林彼丢带橘猫。
+						内部测试版
+						很多没做完
+						看看效果即可
 					</text>
-				</view> -->
+				</view>
 			<button class="fr-main-button" style="width: 450rpx;" @click="gotoNext">确定</button>
 		</view>
 		
 		<view class="launch-footer">
-			<view class="author-info">开发者：丢<br>v0.0.1</view>
+			<view class="author-info">开发者：丢<br>v0.0.2</view>
 			<image class="author-logo" src="../../static/logo/author_logo.png" mode="widthFix" />
 		</view>
 	</view>
@@ -115,7 +114,9 @@
 	// 文字提示
 	.launch-tips{
 		font-size: 34rpx;
+		margin-top: 60rpx;
 		padding: 0rpx 40rpx;
+		text-align: center;
 		.launch-tips-title{
 			text-align: center;
 			font-size: 40rpx;

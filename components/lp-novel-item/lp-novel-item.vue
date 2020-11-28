@@ -51,7 +51,6 @@
 			// 点击收藏后，调用这个函数，尝试下载小说，根据结果判断收藏是否成功
 			async tryFavCallBack(){
 				let result = await this.$getPixivNovelDetail(this.id)
-				console.log(result);
 				// 收藏按钮点击后，小说下载成功
 				if(result){
 					return true
@@ -64,13 +63,8 @@
 			initFav(value){
 				this.isFav = value
 			},
-			async clickNovel(){
-				let r = await this.$getPixivNovelDetail(this.id);
-				if(r){
-					this.$navigateTo({
-						url:"../novel_detail/novel_detail?id="+this.id
-					})
-				}
+			clickNovel(){
+				this.$gotoPixivNovel(this.id);
 			}
 		}
 	}
@@ -78,8 +72,8 @@
 
 <style lang="scss">
 	.novel-item{
-		box-shadow: 5rpx 5rpx 10px #bbb;
-		background: rgb(246,245,236);
+		box-shadow: 0rpx 0rpx 15rpx #bbb;
+		background: $card-backgrond;
 		border-radius: 20rpx;
 		padding: 20rpx;
 		margin: 40rpx;
@@ -104,6 +98,7 @@
 				width: 50rpx;
 				position: absolute;
 				z-index: 1;
+				filter: drop-shadow(4rpx 8rpx 4rpx #bbb);
 			}
 			.novel-fav{
 				@include novel-fav-base;
@@ -120,13 +115,12 @@
 			.novel-title{
 				@include ellipsis-oneline;
 				line-height: 45rpx;
-				font-size: 44rpx;
+				font-size: 40rpx;
 				font-weight: bold;
 			}
 			.novel-author{
 				line-height: 42rpx;
 				font-size: 34rpx;
-				font-weight: bold;
 			}
 			.novel-caption{
 				font-size: 28rpx;

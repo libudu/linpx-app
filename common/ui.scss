@@ -7,12 +7,16 @@
 }
 // 自定义字体
 @font-face {
-    font-family: "GlowSansTC";
-    src:url('static/font/GlowSansTC-Normal-Heavy.otf');
+    font-family: "GlowSansSC";
+    src:url('static/font/GlowSansSC-Normal-Heavy.otf');
 	font-weight: bold;
 }
 @font-face {
-    font-family: "GlowSansTC";
+    font-family: "GlowSansSC";
     src:url('static/font/GlowSansTC-Normal-Regular.otf');
 	font-weight: normal;
+}
+
+body{
+    font-family: "GlowSansSC";
 }

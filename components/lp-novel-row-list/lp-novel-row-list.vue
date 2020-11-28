@@ -40,13 +40,15 @@
 				let intros = []
 				Object.keys(prefixIds).reverse().forEach(async (prefixId)=>{
 					let rowData = await this.$getPixivNovelDetail(prefixId, "");
+					console.log(rowData);
 					if(rowData){
 						let intro = {
 							id: rowData.id,
 							title: rowData.title,
 							caption: rowData.description,
 							author: rowData.userName,
-							coverUrl: rowData.coverUrl
+							coverUrl: rowData.coverUrl,
+							tags: rowData.tags.tags.map((item)=>item.tag)
 						};
 						intros.push(intro);
 					}

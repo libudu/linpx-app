@@ -1,6 +1,15 @@
 <template>
 	<view>
 		<lp-nav-bar type="back" title="作者详情" />
+		<view class="author-info">
+			<img-cache class="author-background-image" :src="backgroundImgUrl" preview mode="aspectFill"></img-cache>
+			
+			<img-cache class="author-side" :src="sideImgUrl" preview mode="aspectFill"></img-cache>
+			
+			<view class="author-name">{{name}}</view>
+			<view class="author-id">pixiv id:{{id}}</view>
+			<view class="author-comment">{{comment}}</view>
+		</view>
 		<lp-novel-row-list type="rowData" :data="novels" />
 	</view>
 </template>
@@ -9,14 +18,25 @@
 	export default {
 		data() {
 			return {
+				backgroundImgUrl:"",
+				sideImgUrl:"",
+				name:"",
+				id:"",
+				comment:"",
 				novels:[]
 			}
 		},
-		methods: {
-		},
 		async onLoad(options) {
-			// let userInfo = await this.$getPixivUserDetail(options.id);
-			// console.log(userInfo);
+			// 初始化各种信息
+			let allInfo = await this.$getPixivUserDetail(options.id);
+			//console.log(options.id);
+			let userInfo = allInfo.user
+			this.name = userInfo.name
+			this.id = userInfo.id
+			this.comment = userInfo.comment
+			this.sideImgUrl = userInfo.profile_image_urls.medium
+			this.backgroundImgUrl = allInfo.profile.background_image_url
+			// 初始化小说列表
 			let novels = getApp().globalData.search_novels;
 			// 如果全局变量中没有缓存，那就再发一次请求
 			if(!novels){
@@ -36,4 +56,41 @@
 </script>
 
 <style lang="scss">
+	.author-info{
+		width: 100%;
+		background: $card-backgrond;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		position: relative;
+		box-shadow: 0rpx 0rpx 16rpx #999;
+		.author-background-image{
+			position: absolute;
+			width: 100%;
+			height: 200rpx;
+		}
+		.author-side{
+			margin-top: 60rpx;
+			border: 20rpx solid $card-backgrond;
+			width: 250rpx;
+			height: 250rpx;
+			border-radius: 250rpx;
+		}
+		.author-name{
+			margin-top: -10rpx;
+			font-size: 80rpx;
+			font-weight: bold;
+		}
+		.author-id{
+			font-size: 30rpx;
+			line-height: 40rpx;
+			color: $pixiv-blue;
+		}
+		.author-comment{
+			font-size: 36rpx;
+			padding: 20rpx 100rpx;
+			margin-bottom: 40rpx;
+			word-break: break-all;
+		}
+	}
 </style>
