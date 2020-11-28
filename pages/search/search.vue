@@ -6,8 +6,8 @@
 		<view class="card-button-group">
 			<view v-for="(item, index) in getShowCardButtonList" :key="index"
 			class="card-button" @click="clickCardButton(item.name)" :style="item.style">
-				<image v-if='item.icon' class="card-button-icon" mode="aspectFit" :src="item.icon"></image>
-				<view class="card-button-text">{{item.name}}</view>
+				<image v-if='item.icon' class="card-button-icon" :style="item.imgStyle" mode="aspectFit" :src="item.icon"></image>
+				<view class="card-button-text" :style="item.fontStyle">{{item.name}}</view>
 			</view>
 		</view>
 	</view>
@@ -28,46 +28,44 @@
 							opacity:0.5
 						}
 					},
-					// {
-					// 	'name':'推荐',
-					// 	'show':true,
-					// 	'open':false,
-					// 	'icon':'../../static/emoji/fire.png'
-					// },
 					{
-						'name':'作者',
-						'show':true,
-						'open':false,
-						'icon':'../../static/emoji/sun.png',
-						'style':{
+						name:'分类',
+						show:true,
+						open:false,
+						icon:'../../static/emoji/fire.png',
+						style:{
 							background: "#aaa",
-							opacity:0.5
+							opacity:0.5,
 						}
 					},
 					{
-						'name':'最近',
-						'show':true,
-						'open':false,
-						'icon':'../../static/emoji/drop.png'
+						name:'作者',
+						show:true,
+						open:false,
+						icon:'../../static/emoji/sun.png',
+						imgStyle:{
+							opacity:0.6
+						}
 					},
 					{
-						'name':'收藏',
-						'show':true,
-						'open':false,
-						'icon':'../../static/emoji/star.png'
+						name:'关注',
+						show:true,
+						open:false,
+						icon:'../../static/emoji/kiss.png'
+					},
+					{
+						name:'最近',
+						show:true,
+						open:false,
+						icon:'../../static/emoji/drop.png'
+					},
+					{
+						name:'收藏',
+						show:true,
+						open:false,
+						icon:'../../static/emoji/star.png'
 					}
-				],
-				
-				hotPixivAuthor:{
-					"安卓":"30135992",
-					"坎德":"3754812",
-					"爱吃肉的龙仆":"12261974",
-					"戌子雨":"20662397",
-					"DEER1216":"33407541",
-					"迦迪垃":"11342501",
-					"肆指":"1537839",
-					"crysimon":"5266594"
-				},
+				]
 			};
 		},
 		computed:{
@@ -79,12 +77,27 @@
 		},
 		methods:{
 			navigateTo(pageName){
-				uni.navigateTo({
-					url:`../${pageName}/${pageName}`
+				this.$navigateTo({
+					url:`../${pageName}/${pageName}`,
+					animationType:"pop-in",
+					animationDuration:200
 				})
 			},
 			clickCardButton(e){
+				let waitFlag = false;
 				switch(e){
+					case '排行榜':
+						waitFlag = true;
+						break;
+					case '分类':
+						waitFlag = true;
+						break;
+					case '作者':
+						this.navigateTo("authors_recommend");
+						break;
+					case '关注':
+						this.navigateTo("authors_follow");
+						break;
 					case '最近':
 						this.navigateTo("novels_recent");
 						break;
@@ -92,36 +105,44 @@
 						this.navigateTo("novels_fav");
 						break;
 				}
+				if(waitFlag){
+					uni.showToast({
+						icon:"none",
+						title:"敬请期待..."
+					})
+				}
 			},
 			// 根据输入，开始搜索
 			async startSearch(option){
-				switch(option.searchType.toLowerCase()){
-					case 'pixiv作者':
-						this.searchPixivAuthor(option.userInput);
-						break;
-					case 'pixiv作品':
-						this.searchPixivNovel(option.userInput);
-						break;
-					case '关键字':
-						break;
+				if(option.userInput){
+					switch(option.searchType.toLowerCase()){
+						case 'pixiv作者':
+							this.searchPixivAuthor(option.userInput);
+							break;
+						case 'pixiv作品':
+							this.searchPixivNovel(option.userInput);
+							break;
+						case '关键字':
+							break;
+					}
 				}
 			},
 			// 搜索pixiv平台下，小说的内容
 			async searchPixivNovel(novelId){
 				let novel = await this.$getPixivNovelDetail(novelId);
 				if(novel){
-					uni.navigateTo({
+					this.$navigateTo({
 						url:"../novel_detail/novel_detail?id="+novelId
 					})
 				}
 			},
-			// 搜索pixiv平台下，用户的小说
+			// 搜索pixiv平台下用户
 			async searchPixivAuthor(userId){
 				// 请等待
 				let novels = await this.$getPixivUserNovels(userId)
 				if(novels){
-					uni.navigateTo({
-						url:"../search_novels/search_novels"
+					this.$navigateTo({
+						url:"../author_detail/author_detail"
 					})
 				}
 			}

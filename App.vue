@@ -2,14 +2,26 @@
 export default {
 	globalData:{
 		// 按用户搜索页面和搜索结果的通讯变量
-		search_novels:Object,
-		favNovels:Object
+		search_novels:undefined,
+		favNovels:Object,
+		favAuthors:Object
 	},
 	onLaunch: function() {
 		console.log('App Launch');
 	},
 	onShow: function() {
 		console.log('App Show');
+		uni.getClipboardData({
+			success:(data)=>{
+				console.log(data);
+			}
+		})
+		// uni.setClipboardData({
+		// 	data:'114514',
+		// 	success:()=>{
+		// 		console.log('success');
+		// 	}
+		// })
 	},
 	onHide: function() {
 		console.log('App Hide');

@@ -1,6 +1,7 @@
 <template>
 	<view class="uni-navbar">
-		<view :class="{ 'uni-navbar--fixed': fixed, 'uni-navbar--shadow': shadow, 'uni-navbar--border': border }" class="uni-navbar__content">
+		<view :class="{ 'uni-navbar--fixed': fixed, 'uni-navbar--shadow': shadow, 'uni-navbar--border': border }"
+		class="uni-navbar__content" :style="headerStyle">
 			<uni-status-bar v-if="statusBar" />
 			<view :style="{ color: color}" class="uni-navbar__header uni-navbar__content_view">
 				<view @tap="onClickLeft" class="uni-navbar__header-btns uni-navbar__header-btns-left uni-navbar__content_view">
@@ -109,6 +110,9 @@
 			border: {
 				type: [Boolean, String],
 				default: true
+			},
+			headerStyle:{
+				type:String
 			}
 		},
 		mounted() {
@@ -130,10 +134,12 @@
 <style scoped lang="scss">
 	$text-size: 50rpx;
 	$text-size-s: 40rpx;
+	$navbar-height: 100rpx;
 	
 	.uni-nav-bar-text {
 		font-size: $text-size;
 		font-weight: bold;
+		overflow-x: hidden;
 	}
 
 	.uni-nav-bar-right-text {
@@ -156,16 +162,17 @@
 		/* background-color: #FFFFFF;
  */
 	}
-
+	
 	.uni-navbar__header {
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
 		// #ifdef APP-PLUS
-		margin-top: 40rpx;
+		margin-top: 60rpx;
 		// #endif
+		width: 750rpx;
 		flex-direction: row;
-		height: 60px;
+		height: $navbar-height;
 		line-height: 44px;
 		font-size: $text-size;
 		font-weight: bold;
@@ -215,9 +222,8 @@
 		font-size: $text-size;
 	}
 
-
 	.uni-navbar__placeholder-view {
-		height: 44px;
+		height: $navbar-height + 30rpx;
 	}
 
 	.uni-navbar--fixed {

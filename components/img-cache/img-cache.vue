@@ -8,7 +8,7 @@
     :webp="webp"
     :show-menu-by-longpress="showMenuByLongpress"
     :style="[style]"
-    @tap="fnEvent('click', $event)"
+    @tap.stop="fnEvent('click', $event)"
     @error="fnEvent('error', $event)"
     @load="fnEvent('load', $event)"
   >
@@ -44,6 +44,10 @@ import { resolveFile } from './index'
 export default {
   name: 'ImgCache',
   props: {
+	preview:{
+		type:Boolean,
+		default: false
+	},
     src: {
       type: String
     },
@@ -84,7 +88,9 @@ export default {
   },
   data() {
     return {
-      resource: ''
+      resource: '',
+	  path:'',
+	  url:''
     }
   },
   computed: {
@@ -117,25 +123,30 @@ export default {
     },
     // 获取缓存
     async fnCache() {
-      const url = this.src // 赋值到新变量，避免下载时 src 更改，从而网络地址和本地地址图片不一致
+      this.url = this.src // 赋值到新变量，避免下载时 src 更改，从而网络地址和本地地址图片不一致
 
-      if (!/^https?:\/\//.test(url)) return this.setSrc() // 判断是否网络地址
+      if (!/^https?:\/\//.test(this.url)) return this.setSrc() // 判断是否网络地址
 
-      const [select] = storage.select({ url }) // 查询缓存是否存在
+      this.path = storage.select(this.url) // 查询缓存是否存在
 
-      if (select) {
-        const path = select.local
-        if (await resolveFile(path)) return this.setSrc(path) // 判断本地文件是否存在 如果存在则显示本地文件
-        storage.delete(select) // 如果本地文件不存在则删除缓存数据
+      if (this.path) {
+        if (await resolveFile(this.path)) return this.setSrc(this.path) // 判断本地文件是否存在 如果存在则显示本地文件
+        storage.delete(this.url) // 如果本地文件不存在则删除缓存数据
       }
 
-      const local = await download(url, this.dir) // 下载文件
-      if (local) storage.insert({ url, local }) // 缓存数据
-      this.setSrc(local)
+      this.path = await download(this.url, this.dir) // 下载文件
+      if (this.path) storage.insert(this.url, this.path) // 缓存数据
+      this.setSrc(this.path)
     },
     // 发送事件
     fnEvent(emit, event) {
-      this.$emit(emit, event)
+		if(emit === "click" && this.preview){
+			uni.previewImage({
+				current:this.path,
+				urls:[this.path]
+			})
+		}
+		this.$emit(emit, event)
     },
     // 设置图片资源地址
     setSrc(src) {

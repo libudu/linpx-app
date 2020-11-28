@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<lp-nav-bar type="back" title="收藏" />
-		<lp-novel-row-list type='storage' data='favNovels' />
+		<lp-novel-row-list type='storageList' data='favNovels' />
 	</view>
 </template>
 

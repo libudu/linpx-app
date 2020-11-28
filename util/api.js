@@ -1,4 +1,5 @@
-const BASE_URL = 'http://45.76.105.135/'
+const BASE_URL = 'http://api.linpx.linpicio.com/'
+//const BASE_URL = 'http://localhost:8000/'
 
 export const myRequest = (options)=>{
 	uni.showLoading({
@@ -11,16 +12,17 @@ export const myRequest = (options)=>{
 			method: options.method || 'GET',
 			data: options.data || {},
 			success: (res) => {
-				uni.hideLoading()
 				resolve(res)
 			},
 			fail: (err) => {
-				uni.hideLoading()
 				uni.showToast({
 					icon:"none",
 					title:"网络连接错误"
 				})
 				reject(err)
+			},
+			complete() {
+				uni.hideLoading()
 			}
 		})
 	}
@@ -82,7 +84,7 @@ export const getPixivNovelDetail = async (id, prefix="pn")=>{
 
 // 搜索一个作者的小说
 export const getPixivUserNovels = async (id)=>{
-	let novels = await myCacheRequest({
+	let novels = await myRequest({
 		url: "user_novels?id="+id
 	})
 	// 搜索作者小说没有缓存，必然来自网络
@@ -95,10 +97,30 @@ export const getPixivUserNovels = async (id)=>{
 		})
 		return undefined
 	}
-	// 一切正常，设置author字段（统一lp-novel显示接口），保存到全局变量使用
-	novels.novels.forEach((item)=>{
-		item.author = item.user.name
-	})
+	// 一切正常，保存到全局变量使用
 	getApp().globalData.search_novels = novels
 	return novels;
+}
+
+
+// 获得一个作者的详细信息
+export const getPixivUserDetail = async (id)=>{
+	let userInfo = await myCacheRequest({
+		url: "user_detail?id="+id,
+		storageKey: "pa"+id
+	})
+	// 如果本地有那就直接返回
+	if(!userInfo._statusCode){
+		return userInfo
+	}
+	userInfo = userInfo.data
+	if(userInfo.error){
+		uni.showToast({
+			icon:"none",
+			title:"该作者不存在"
+		})
+		return undefined
+	}
+	uni.setStorageSync('pa'+id, userInfo)
+	return userInfo
 }

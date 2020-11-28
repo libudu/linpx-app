@@ -1,6 +1,12 @@
 <template>
 	<view>
-		<uni-nav-bar :leftText="leftText" :leftIcon="leftIcon" :title="title" @clickLeft="leftClickHandle"></uni-nav-bar>
+		<uni-nav-bar :leftText="leftText" :leftIcon="leftIcon" :title="title"
+		:fixed="fixed" :headerStyle="headerStyle"
+		@clickLeft="leftClickHandle">
+			<template v-slot:right>
+				<slot name="right"></slot>
+			</template>
+		</uni-nav-bar>
 	</view>
 </template>
 
@@ -12,7 +18,7 @@
 				leftText:"",
 				rightIcon:"",
 				rightText:"",
-				leftClickHandle:undefined
+				leftClickHandle:""
 			};
 		},
 		props:{
@@ -20,7 +26,14 @@
 				type:String,
 				default:'default'
 			},
-			title:String
+			title:String,
+			fixed:{
+				type:Boolean,
+				default:false
+			},
+			headerStyle:{
+				type:String
+			}
 		},
 		created() {
 			switch (this.type){

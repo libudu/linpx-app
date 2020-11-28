@@ -1,6 +1,6 @@
 <template>
 	<view>
-		作者页面
+		<lp-nav-bar type="back" title="关注" />
 	</view>
 </template>
 
@@ -9,14 +9,11 @@
 		data() {
 			return {
 				
-			}
-		},
-		methods: {
-			
+			};
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
 
 </style>

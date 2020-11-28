@@ -7,7 +7,8 @@
 				<view class="search-picker-tip">▽</view>
 			</picker>
 			
-			<input class="search-input" :placeholder="searchInputTip" @input="userInput=$event.detail.value" :type="searchInputType"  />
+			<input class="search-input" :placeholder="searchInputTip" :type="searchInputType"
+			@input="userInput=$event.detail.value"/>
 			
 			<view class="search-icon" @click="startSearch">
 				<uni-icons color="#999999" class="uni-searchbar__box -icon-search" size="26" type="search" />
@@ -65,7 +66,7 @@
 					userInput:this.userInput
 				})
 			},
-			searchTypeChanged(e){
+			searchTypeChanged(e){  
 				this.searchTypeIndex = e.detail.value
 			}
 		}

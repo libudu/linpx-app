@@ -1,15 +1,16 @@
 <template>
 	<view>
 		<lp-novel-item v-for="(novel,index) in novels" :key="index"
-		:title="novel.title" :caption="novel.caption" :id="novel.id" :author="novel.author"
+		:title="novel.title" :caption="novel.caption" :id="novel.id"
+		:author="novel.author" :coverUrl="novel.coverUrl" :tags="novel.tags"
 		class="novel-item" />
 	</view>
 </template>
 
 <script>
 	export default {
-		props:{
-			novels:Array
-		}
+		props:[
+			'novels'
+		]
 	}
 </script>

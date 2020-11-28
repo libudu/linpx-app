@@ -2,43 +2,48 @@
 	"pages": [
 		{
             "path" : "pages/launch/launch"
-        },
-		{
+        }
+		,{
             "path" : "pages/novels/novels"
-        },
-		{
-            "path" : "pages/authors/authors"
-        },
-		{
+        }
+		,{
+            "path" : "pages/author_detail/author_detail"
+        }
+		,{
             "path" : "pages/search/search"
-        },
-		{
-            "path" : "pages/search_novels/search_novels"
-        },
-		{
+        }
+		,{
             "path" : "pages/novel_detail/novel_detail"
-        },
-		{
+        }
+		,{
             "path" : "pages/novels_fav/novels_fav"
-        },
-		{
+        }
+		,{
             "path" : "pages/novels_local/novels_local"
-        },
-		{
+        }
+		,{
             "path" : "pages/user/user"
-        },
-		{
+        }
+		,{
             "path" : "pages/novels_recent/novels_recent"
-        },
-		{
+        }
+		,{
 			"path":"pages/user/user_setting"
-		}
+        }
+		,{
+            "path" : "pages/authors_follow/authors_follow"
+        }
+		,{
+            "path" : "pages/authors_recommend/authors_recommend"
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#e0a34d",
-		"navigationStyle":"custom"
+		"navigationStyle":"custom",
+		"animationType":"pop-in",
+		"animationDuration":"500"
 	},
 		
 	"tabBar":{
