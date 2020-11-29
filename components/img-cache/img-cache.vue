@@ -116,9 +116,9 @@ export default {
   methods: {
     // 初始化
     init() {
-      // #ifdef APP-PLUS
-      this.fnCache()
-      // #endif
+		// #ifdef APP-PLUS
+		this.fnCache()
+		// #endif
 
     },
     // 获取缓存
@@ -142,8 +142,8 @@ export default {
     fnEvent(emit, event) {
 		if(emit === "click" && this.preview){
 			uni.previewImage({
-				current:this.path,
-				urls:[this.path]
+				current:this.resource,
+				urls:[this.resource]
 			})
 		}
 		this.$emit(emit, event)

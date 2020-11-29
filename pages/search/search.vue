@@ -64,7 +64,19 @@
 						show:true,
 						open:false,
 						icon:'../../static/emoji/star.png'
+					},
+					{
+						name:'支持',
+						show:true,
+						open:false,
+						icon:'../../static/emoji/cute.png',
+						imgStyle:{
+							'margin-left':"20rpx",
+							'margin-top':'-10rpx',
+							'width':'170rpx'
+						}
 					}
+					
 				]
 			};
 		},
@@ -104,6 +116,9 @@
 					case '收藏':
 						this.navigateTo("novels_fav");
 						break;
+					case '支持':
+						this.navigateTo("support");
+						break;
 				}
 				if(waitFlag){
 					this.$todoToast()
@@ -134,13 +149,13 @@
 		display: flex;
 		justify-content: left;
 		flex-wrap: wrap;
-		margin: 50rpx 0rpx 50rpx 65rpx;
+		margin: 50rpx 0rpx 50rpx 85rpx;
 		.card-button{
 			
 			position: relative;
-			width:280rpx;
-			height: 180rpx;
-			margin: 0rpx 50rpx 50rpx 0rpx;
+			width:260rpx;
+			height: 160rpx;
+			margin: 0rpx 60rpx 50rpx 0rpx;
 			
 			border-radius: 30rpx;
 			box-shadow: 5rpx 5rpx 20rpx #ccc;
@@ -151,7 +166,7 @@
 				position: relative;
 				text-align: center;
 				font-size: 52rpx;
-				line-height: 180rpx;
+				line-height: 150rpx;
 				font-weight: bold;
 				z-index: 1;
 			}

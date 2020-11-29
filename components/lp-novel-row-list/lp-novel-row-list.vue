@@ -40,7 +40,7 @@
 				let intros = []
 				Object.keys(prefixIds).reverse().forEach(async (prefixId)=>{
 					let rowData = await this.$getPixivNovelDetail(prefixId, "");
-					console.log(rowData);
+					//console.log(rowData);
 					if(rowData){
 						let intro = {
 							id: rowData.id,

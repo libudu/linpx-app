@@ -12,18 +12,22 @@
 			};
 		},
 		props:{
-			authorIds:Array
+			type:String
 		},
 		async created() {
-			this.authorIds.forEach((authorId)=>{
-				this.$getPixivUserDetail(authorId, "").then((rowData)=>{
-					if(rowData){
-						let user = rowData.user;
+			let authorIds = []
+			if(this.type === 'recommendPixivAuthors'){
+				authorIds = await this.$getRecommendPixivAuthors()
+			}
+			
+			authorIds.forEach((authorId)=>{
+				this.$getPixivUserDetail(authorId).then((data)=>{
+					if(data){
 						let info = {
-							id: String(user.id),
-							name: user.name,
-							comment: user.comment,
-							imageUrl: user.profile_image_urls.medium
+							id: data.userId,
+							name: data.name,
+							comment: data.comment,
+							imageUrl: data.imageBig
 						};
 						this.authorsInfo.push(info);
 					}

@@ -11,17 +11,19 @@ export default {
 	},
 	onShow: function() {
 		console.log('App Show');
-		uni.getClipboardData({
-			success:(data)=>{
-				console.log(data);
-			}
-		})
+		//#ifdef APP-PLUS
+		// uni.getClipboardData({
+		// 	success:(data)=>{
+		// 		console.log(data);
+		// 	}
+		// })
 		// uni.setClipboardData({
 		// 	data:'114514',
 		// 	success:()=>{
 		// 		console.log('success');
 		// 	}
 		// })
+		//#endif
 	},
 	onHide: function() {
 		console.log('App Hide');

@@ -28,14 +28,12 @@
 		},
 		async onLoad(options) {
 			// 初始化各种信息
-			let allInfo = await this.$getPixivUserDetail(options.id);
-			//console.log(options.id);
-			let userInfo = allInfo.user
-			this.name = userInfo.name
-			this.id = userInfo.id
-			this.comment = userInfo.comment
-			this.sideImgUrl = userInfo.profile_image_urls.medium
-			this.backgroundImgUrl = allInfo.profile.background_image_url
+			let info = await this.$getPixivUserDetail(options.id);
+			this.name = info.name
+			this.id = info.userId
+			this.comment = info.comment
+			this.sideImgUrl = info.imageBig
+			this.backgroundImgUrl = info.background?info.background.url:""
 			// 初始化小说列表
 			let novels = getApp().globalData.search_novels;
 			// 如果全局变量中没有缓存，那就再发一次请求

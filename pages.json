@@ -36,6 +36,9 @@
 		,{
             "path" : "pages/authors_recommend/authors_recommend"
         }
+        ,{
+            "path" : "pages/support/support"
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

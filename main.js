@@ -10,12 +10,14 @@ Vue.prototype.$myCacheRequest = api.myCacheRequest
 Vue.prototype.$getPixivNovelDetail = api.getPixivNovelDetail
 Vue.prototype.$getPixivUserNovels = api.getPixivUserNovels
 Vue.prototype.$getPixivUserDetail = api.getPixivUserDetail
+Vue.prototype.$getRecommendPixivAuthors = api.getRecommendPixivAuthors
 
 // 路由全局方法
 var route = require('./util/route.js');
 Vue.prototype.$navTo = route.navTo
 Vue.prototype.$gotoPixivNovel = route.gotoPixivNovel
 Vue.prototype.$gotoPixivAuthor = route.gotoPixivAuthor
+Vue.prototype.$navigateTo = route.navigateTo
 
 
 Vue.prototype.$todoToast = (title)=>uni.showToast({
@@ -24,12 +26,6 @@ Vue.prototype.$todoToast = (title)=>uni.showToast({
 	duration: 1000
 })
 
-Vue.prototype.$navigateTo = (option) => {
-	uni.navigateTo(Object.assign({
-		animationType:"pop-in",
-		animationDuration:500
-	}, option))
-}
 
 Vue.config.productionTip = false
 
@@ -57,3 +53,5 @@ let initStorageToGlobal = function(storageName, defaultValue={}){
 initStorageToGlobal('favNovels')
 initStorageToGlobal('favAuthors')
 
+// 尝试刷新最新的推荐作者列表
+api.getRecommendPixivAuthors(true)

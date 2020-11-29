@@ -11,16 +11,20 @@
 				<view class="launch-tips">
 					<!-- <view class="launch-tips-title">使用须知：</view> -->
 					<text>
-						内部测试版
-						很多没做完
+						该应用为开源项目Linpx的内部测试版
+						正式版中缓存数据很可能全部丢失
 						看看效果即可
+						
+						项目交流QQ群：
+						
+						<text @click="clickGroupNum" style="text-decoration: underline;display: block;">576268549(点击加入)</text>
 					</text>
 				</view>
-			<button class="fr-main-button" style="width: 450rpx;" @click="gotoNext">确定</button>
+			<button class="launch-button" style="width: 450rpx;" @click="gotoNext">确定</button>
 		</view>
 		
 		<view class="launch-footer">
-			<view class="author-info">开发者：丢<br>v0.0.2</view>
+			<view class="author-info">开发者：丢<br>v0.2.3</view>
 			<image class="author-logo" src="../../static/logo/author_logo.png" mode="widthFix" />
 		</view>
 	</view>
@@ -34,6 +38,11 @@
 			};
 		},
 		methods:{
+			clickGroupNum(){
+				plus.runtime.openURL('mqqwpa://card/show_pslcard?src_type=internal&version=1&uin=576268549&card_type=group&source=qrcode',function (res) {
+					plus.nativeUI.alert("本机没有安装QQ，无法启动");
+				});
+			},
 			gotoNext(){
 				uni.switchTab({
 					url:"../search/search"
@@ -76,6 +85,15 @@
 	}
 	.launch-main{
 		height: 55%;
+		align-items: center;
+		.launch-button{
+			background: $main-color;
+			box-shadow: 0rpx 0rpx 8px $main-color-deep;
+			font-size: 40rpx;
+			font-weight: bold;
+			margin-top: 50rpx;
+			width: 400rpx;
+		}
 	}
 	.launch-footer{
 		position: absolute;

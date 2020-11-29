@@ -58,6 +58,7 @@
 				return false
 			},
 			favChange(value){
+				console.log(value);
 				this.isFav = value
 			},
 			initFav(value){

@@ -12,7 +12,7 @@
 		// @favChange(value):喜欢按钮被点击，value是点击后的状态值
 		data() {
 			return {
-				favItemDict:undefined	// 所有收藏项目的列表，检查元素是否在其中，自动根据存储键索引全局变量
+				favItemDict:{}	// 所有收藏项目的列表，检查元素是否在其中，自动根据存储键索引全局变量
 			}
 		},
 		props:{
@@ -26,11 +26,19 @@
 				type:String,
 				default:'已取消收藏'
 			},
+			// 尝试去fav一个项目后的回调函数，根据返回值真假确定fav是否成功
+			// 用处：fav一个小说后需要把小说下载到本地，根据下载的成功与否决定收藏成功与否
+			// 但下载逻辑与收藏无关，可以通过回调实现
 			'tryFavCallBack':undefined
 		},
 		computed:{
 			state: function(){
 				return this.favItem in this.favItemDict
+			}
+		},
+		watch:{
+			state: function(newValue,oldValue){
+				this.$emit('favChange', newValue)
 			}
 		},
 		methods:{
@@ -49,7 +57,6 @@
 				// 原来是在，点一下需要去掉
 				if(this.state){
 					this.$delete(this.favItemDict,this.favItem)
-					this.$emit('favChange', false)
 					this.showTip()
 					uni.setStorageSync(this.storageKey, this.favItemDict)
 				}
@@ -65,7 +72,6 @@
 						}
 					}
 					this.$set(this.favItemDict, this.favItem, true)
-					this.$emit('favChange', true)
 					this.showTip()
 					uni.setStorageSync(this.storageKey, this.favItemDict)
 				}

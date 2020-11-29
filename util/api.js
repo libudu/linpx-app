@@ -1,10 +1,18 @@
 const BASE_URL = 'http://api.linpx.linpicio.com/'
 //const BASE_URL = 'http://localhost:8000/'
 
+// url:访问的url，必须
+// method:请求的方法，默认为GET
+// data:请求发送的数据
+// loadTitle:加载的标题
+// noLoadTip:不显示加载提示
+// noFailTip:不显示失败提示
 export const myRequest = (options)=>{
-	uni.showLoading({
-		title: options.loadTitle || "请稍等..."
-	})
+	if(!options.noLoadTip){
+		uni.showLoading({
+			title: options.loadTitle || "请稍等..."
+		})
+	}
 	
 	return new Promise((resolve,reject)=>{
 		uni.request({
@@ -15,10 +23,12 @@ export const myRequest = (options)=>{
 				resolve(res)
 			},
 			fail: (err) => {
-				uni.showToast({
-					icon:"none",
-					title:"网络连接错误"
-				})
+				if(!options.noFailTip){
+					uni.showToast({
+						icon:"none",
+						title:"网络连接错误"
+					})
+				}
 				reject(err)
 			},
 			complete() {
@@ -38,9 +48,7 @@ export const myCacheRequest = async (options)=>{
 	}
 	// 如果本地没有，联网查找
 	if(options.url){
-		const res = await myRequest({
-			url: options.url
-		})
+		const res = await myRequest(options)
 		// 用于区分从本地获取和从网络获取
 		res._statusCode = res.statusCode
 		return res
@@ -121,6 +129,31 @@ export const getPixivUserDetail = async (id)=>{
 		})
 		return undefined
 	}
-	//uni.setStorageSync('pa'+id, userInfo)
+	userInfo = userInfo.body
+	uni.setStorageSync('pa'+id, userInfo)
 	return userInfo
+}
+
+
+// 【后台】获取最新推荐作者列表
+export const getRecommendPixivAuthors = async (update=false)=>{
+	let result = undefined
+	if(update){
+		result = await myRequest({
+			noLoadTip:true,
+			noFailTip:true,
+			url:"recommend_authors"
+		})
+		if(result.statusCode == 200){
+			result = result.data
+			if(result.authors){
+				result = Object.values(result.authors);
+				result.sort(()=>Math.random()-0.5);
+				uni.setStorageSync('recommendPixivAuthors', result);
+				console.log('推荐作者列表更新', result);
+			}
+		}
+	}
+	result = uni.getStorageSync('recommendPixivAuthors')
+	return result
 }
