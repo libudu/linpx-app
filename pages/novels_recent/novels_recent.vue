@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<lp-nav-bar type="back" title="最近" />
-		<lp-novel-row-list type='storageList' data='recentNovels' />
+		<lp-novel-list type='storageKeyIdList' data='recentNovels' />
 	</view>
 </template>
 

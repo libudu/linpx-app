@@ -2,15 +2,26 @@
 	<view>
 		<lp-nav-bar type="back" title="作者详情" />
 		<view class="author-info">
-			<img-cache class="author-background-image" :src="backgroundImgUrl" preview mode="aspectFill"></img-cache>
+			<img-cache class="author-background-image" :src="userInfo.backgroundImgUrl" preview mode="aspectFill"></img-cache>
 			
-			<img-cache class="author-side" :src="sideImgUrl" preview mode="aspectFill"></img-cache>
+			<img-cache class="author-side" :src="userInfo.sideImgUrl" preview mode="aspectFill"></img-cache>
 			
-			<view class="author-name">{{name}}</view>
-			<view class="author-id">pixiv id:{{id}}</view>
-			<view class="author-comment">{{comment}}</view>
+			<view class="author-name">{{userInfo.name}}
+				<lp-fav-item storageKey="favAuthors" :favItem="platformId" style="width: 70rpx;height: 70rpx;display: inline-block;">
+					<template v-slot:no>
+						<image mode="aspectFit" src="../../static/icon/star_idle.png"
+						style="width: 70rpx;height: 70rpx;"></image>
+					</template>
+					<template v-slot:yes>
+						<image mode="aspectFit" src="../../static/icon/star_hover.png"
+						style="width: 70rpx;height: 70rpx;"></image>
+					</template>
+				</lp-fav-item>
+			</view>
+			<view class="author-id">pixiv id:{{userInfo.id}}</view>
+			<view class="author-comment">{{userInfo.comment}}</view>
 		</view>
-		<lp-novel-row-list type="rowData" :data="novels" />
+		<lp-novel-list :data="userNovels" />
 	</view>
 </template>
 
@@ -18,37 +29,27 @@
 	export default {
 		data() {
 			return {
-				backgroundImgUrl:"",
-				sideImgUrl:"",
-				name:"",
-				id:"",
-				comment:"",
-				novels:[]
+				userInfo:{},
+				userNovels:[]
+			}
+		},
+		computed:{
+			platformId(){
+				return 'pa'+this.userInfo.id
 			}
 		},
 		async onLoad(options) {
 			// 初始化各种信息
-			let info = await this.$getPixivUserDetail(options.id);
-			this.name = info.name
-			this.id = info.userId
-			this.comment = info.comment
-			this.sideImgUrl = info.imageBig
-			this.backgroundImgUrl = info.background?info.background.url:""
-			// 初始化小说列表
-			let novels = getApp().globalData.search_novels;
-			// 如果全局变量中没有缓存，那就再发一次请求
+			this.userInfo = await this.$api.getPixivUserDetail(options.id)
+			// 初始化小说列表，如果全局变量中没有缓存，那就再发一次请求
+			let novels = getApp().globalData.search_novels
 			if(!novels){
-				novels = await this.$getPixivUserNovels(options.id)
+				novels = await this.$api.getPixivUserNovels(options.id)
 			}
 			novels = novels.novels
-			//console.log(novels);
-			novels.forEach((novel)=>{
-				novel.coverUrl = novel.image_urls.medium || novel.image_urls.large
-				novel.tags = novel.tags.map((item)=>item.name)
-				novel.author = novel.user.name
-				this.novels.push(novel)
-				return novel;
-			})
+			for(var i in novels){
+				this.userNovels.push(novels[i])
+			}
 		}
 	}
 </script>

@@ -3,14 +3,7 @@ import App from './App'
 
 // API全局方法
 var api = require('./util/api.js');
-// 请求
-Vue.prototype.$myRequest = api.myRequest
-Vue.prototype.$myCacheRequest = api.myCacheRequest
-// 接口
-Vue.prototype.$getPixivNovelDetail = api.getPixivNovelDetail
-Vue.prototype.$getPixivUserNovels = api.getPixivUserNovels
-Vue.prototype.$getPixivUserDetail = api.getPixivUserDetail
-Vue.prototype.$getRecommendPixivAuthors = api.getRecommendPixivAuthors
+Vue.prototype.$api = api
 
 // 路由全局方法
 var route = require('./util/route.js');

@@ -26,6 +26,10 @@
 				type:String,
 				default:'已取消收藏'
 			},
+			'failTip':{
+				type:String,
+				default:'收藏失败'
+			},
 			// 尝试去fav一个项目后的回调函数，根据返回值真假确定fav是否成功
 			// 用处：fav一个小说后需要把小说下载到本地，根据下载的成功与否决定收藏成功与否
 			// 但下载逻辑与收藏无关，可以通过回调实现
@@ -67,7 +71,7 @@
 						let result = await this.tryFavCallBack()
 						// 返回true表示收藏成功，否则表示失败
 						if(!result){
-							this.showTip('收藏失败')
+							this.showTip(this.failTip)
 							return
 						}
 					}

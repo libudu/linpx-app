@@ -31,7 +31,7 @@
 					<view class="novel-author" @click="clickAuthorName">
 						{{novel.userName}}
 					</view>
-					<lp-tags class="novel-tags" :tags="tags" />
+					<lp-tags class="novel-tags" :tags="novel.tags" />
 					<view class="novel-description">
 						<rich-text :nodes="novel.description"></rich-text>
 					</view>
@@ -50,7 +50,6 @@
 		data() {
 			return {
 				novel:Object,
-				tags:[],
 				localCoverPath:"",
 				novelIntroOpacity:1.0,
 				novelIntroHeight:undefined
@@ -92,12 +91,11 @@
 		},
 		async onLoad(option) {
 			// 尝试获取小说信息
-			this.novel = await this.$getPixivNovelDetail(option.id)
+			this.novel = await this.$api.getPixivNovelDetail(option.id)
 			// 添加到最近阅读
 			const storeId = "pn"+option.id;
 			this.updateRecentNovels(storeId);
 			// 根据小说信息设置tag和封面图路径
-			this.tags = this.novel.tags.tags.map((item)=>item.tag)
 			this.localCoverPath = uni.getStorageSync('imgcache')[this.novel.coverUrl];
 		}
 	}

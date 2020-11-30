@@ -50,7 +50,7 @@
 		methods:{
 			// 点击收藏后，调用这个函数，尝试下载小说，根据结果判断收藏是否成功
 			async tryFavCallBack(){
-				let result = await this.$getPixivNovelDetail(this.id)
+				let result = await this.$api.getPixivNovelDetail(this.id)
 				// 收藏按钮点击后，小说下载成功
 				if(result){
 					return true
@@ -58,7 +58,6 @@
 				return false
 			},
 			favChange(value){
-				console.log(value);
 				this.isFav = value
 			},
 			initFav(value){

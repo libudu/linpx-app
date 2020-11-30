@@ -21,7 +21,7 @@
 				<view class="support-title">分享下载链接</view>
 				<!-- 微信分享无法打开下载内容的页面，暂时不整 -->
 				<!-- <button @click="shareDownload('weixin')">微信分享</button> -->
-				<button @click="shareDownload('qq')">QQ分享</button>
+				<button @click="shareDownload('text')">分享到应用</button>
 				<!-- 微博分享需要在应用内输密码，比较智障，暂时不整 -->
 				<!-- <button @click="shareDownload('weibo')">微博分享</button> -->
 				<button @click="setClipboard(downloadUrl, '下载链接复制成功，快分享给朋友吧！')">复制链接</button>
@@ -29,9 +29,9 @@
 			
 			<br>
 			<view class="support-title">分享下载二维码</view>
-			<view>（点开长按保存）</view>
 			<img-cache style="width: 300rpx;" src="../../static/image/downloadQrcode.png"
 			mode="widthFix" preview local></img-cache>
+			<button @click="shareDownload('image')">分享二维码</button>
 			
 			<br>
 			<view class="support-title">赞助平台-爱发电</view>
@@ -72,44 +72,19 @@
 					plus.nativeUI.alert("本机没有安装QQ，无法启动");
 				});
 			},
-			myShare(options){
-				let shareOptions = Object.assign({
-					title:"下载LINPX阅读器",
-					summary:"♧深夜寂寞♧\n♤售人文学♤\n♡直连Pixiv♡\n☆点击即看☆",
-					href:this.downloadUrl,
-					imageUrl:"../../static/logo/app_logo.png"
-				}, options)
-				console.log(shareOptions);
-				uni.share(shareOptions)
-			},
 			shareDownload(type){
-				switch(type.toLowerCase()){
-					case 'weixin':
-						this.myShare({
-							provider:'weixin',
-							type:2,
-							scene:'WXSceneSession',
-							imageUrl:"../../static/image/downloadQrcode.png"
-						})
-						break;
-					case 'qq':
-						this.myShare({
-							provider:'qq',
-							type:2
-						})
-						break;
-					case 'weibo':
-						this.myShare({
-							provider:'sinaweibo',
-							type:1,
-							success:function(err){
-								console.log(234, err);
-							},
-							fail:function(err){
-								console.log(234, err)
-							}
-						})
-						break;
+				if(type === 'text'){
+					uni.shareWithSystem({
+						summary:"♧深夜寂寞♧\n♤售人文学♤\n♡直连Pixiv♡\n☆点击即看☆",
+						href:this.downloadUrl
+					});
+				}
+				else if(type === 'image'){
+					uni.shareWithSystem({
+						summary:"♧深夜寂寞♧\n♤售人文学♤\n♡直连Pixiv♡\n☆点击即看☆",
+						href:this.downloadUrl,
+						imageUrl:"../../static/logo/app_logo.png"
+					});
 				}
 			}
 		}

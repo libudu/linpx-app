@@ -8,7 +8,9 @@
     "app-plus" : {
         "nvueCompiler" : "uni-app",
         "compilerVersion" : 3,
-        "modules" : {},
+        "modules" : {
+            "Share" : {}
+        },
         "distribute" : {
             "android" : {
                 "permissions" : [
@@ -36,7 +38,12 @@
             },
             "ios" : {},
             "sdkConfigs" : {
-                "ad" : {}
+                "ad" : {},
+                "share" : {
+                    "qq" : {
+                        "appid" : "1105602574"
+                    }
+                }
             },
             "icons" : {
                 "android" : {

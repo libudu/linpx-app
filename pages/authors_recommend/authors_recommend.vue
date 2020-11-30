@@ -1,13 +1,16 @@
 <template>
 	<view>
 		<lp-nav-bar type="back" title="推荐作者" />
-		<lp-author-row-list type="recommendPixivAuthors" />
+		<lp-author-list type="recommendPixivAuthors" />
 	</view>
 </template>
 
 <script>
 	export default {
 		data() {
+			return{
+				
+			}
 		}
 	}
 </script>

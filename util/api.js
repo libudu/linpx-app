@@ -70,46 +70,89 @@ export const getPixivNovelDetail = async (id, prefix="pn")=>{
 		url: "novel_detail?id="+id,
 		storageKey: storeId
 	})
-	// 本地有那就直接返回
-	if(!novel._statusCode){
-		return novel
-	}
 	// 如果来自网络，则需要提取数据
-	novel = novel.data.body;
-	// novel应该是一个包含小说信息的字典
-	// 如果不存在，或者存在但为Array，则返回undefined
-	if(!novel || (novel instanceof Array)){
-		uni.showToast({
-			icon:"none",
-			title:"该作品不存在"
-		})
-		return undefined
+	if(novel._statusCode){
+		novel = novel.data.body;
+		// novel应该是一个包含小说信息的字典
+		// 如果不存在，或者存在但为Array，则返回undefined
+		if(!novel || (novel instanceof Array)){
+			uni.showToast({
+				icon:"none",
+				title:"该作品不存在"
+			})
+			return undefined
+		}
+		// 存在则保存
+		uni.setStorageSync(storeId, novel);
 	}
-	// 存在则保存
-	uni.setStorageSync(storeId, novel);
+	novel = {
+		id: novel.id,
+		title: novel.title,
+		caption: novel.description,
+		author: novel.userName,
+		coverUrl: novel.coverUrl,
+		tags: novel.tags.tags.map((item)=>item.tag),
+		content: novel.content
+	};
 	return novel
+}
+
+// 通过id列表获取一整个列表的pixiv小说
+export const getPixivNovelsByIdList = async(idList)=>{
+	let novelInfoList = []
+	idList.forEach(async (id)=>{
+		// 自动处理前面有没有前缀
+		if(id.substring(0,2) == 'pn'){
+			id = id.substring(2)
+		}
+		// 用纯数字id索引
+		let novelInfo = await getPixivNovelDetail(id)
+		novelInfoList.push(novelInfo)
+	})
+	return novelInfoList
+}
+
+// 通过id列表的存储键获取一整个列表的pixiv小说
+export const getPixivNovelsByStorageKey = async (key)=>{
+	let novelIdList = uni.getStorageSync(key)
+	novelIdList = Object.keys(novelIdList)
+	if(!novelIdList){
+		console.log("从存储中索引小说小说列表出错，索引"+key+"不存在");
+		return []
+	}
+	return await getPixivNovelsByIdList(novelIdList)
 }
 
 // 搜索一个作者的小说
 export const getPixivUserNovels = async (id)=>{
-	let novels = await myRequest({
+	let rowData = await myRequest({
 		url: "user_novels?id="+id
 	})
 	// 搜索作者小说没有缓存，必然来自网络
-	novels = novels.data;
+	rowData = rowData.data;
 	// 小说数不对
-	if(!novels.novels.length || novels.novels.length == 0){
+	if(!rowData.novels.length || rowData.novels.length == 0){
 		uni.showToast({
 			title:"不存在该作者或该作者小说数为0",
 			icon:"none"
 		})
 		return undefined
 	}
+	// 处理一下
+	rowData.novels = rowData.novels.map((novel)=>{
+		return {
+			coverUrl: novel.image_urls.medium || novel.image_urls.large,
+			tags: novel.tags.map((item)=>item.name),
+			author: novel.user.name,
+			title: novel.title,
+			id: novel.id,
+			caption: novel.caption
+		};
+	})
 	// 一切正常，保存到全局变量使用
-	getApp().globalData.search_novels = novels
-	return novels;
+	getApp().globalData.search_novels = rowData
+	return rowData;
 }
-
 
 // 【缓存】获得一个作者的详细信息
 export const getPixivUserDetail = async (id)=>{
@@ -117,23 +160,44 @@ export const getPixivUserDetail = async (id)=>{
 		url: "user_detail?id="+id,
 		storageKey: "pa"+id
 	})
-	// 如果本地有那就直接返回
-	if(!userInfo._statusCode){
-		return userInfo
+	// 如果来自网络的话那需要处理一下
+	if(userInfo._statusCode){
+		userInfo = userInfo.data
+		if(userInfo.error){
+			uni.showToast({
+				icon:"none",
+				title:"该作者不存在"
+			})
+			return undefined
+		}
+		userInfo = userInfo.body
 	}
-	userInfo = userInfo.data
-	if(userInfo.error){
-		uni.showToast({
-			icon:"none",
-			title:"该作者不存在"
-		})
-		return undefined
-	}
-	userInfo = userInfo.body
+	// 总之获取成功了，保存并提取需要的字段返回
 	uni.setStorageSync('pa'+id, userInfo)
+	userInfo = {
+		id: userInfo.userId,
+		name: userInfo.name,
+		comment: userInfo.comment,
+		sideImgUrl: userInfo.imageBig,
+		backgroundImgUrl: userInfo.background?userInfo.background.url:""
+	};
 	return userInfo
 }
 
+// 获取一整个列表的作者的详细信息
+export const getPixivUserDetailByList = async (idList)=>{
+	let userDetailList = []
+	idList.forEach(async (id)=>{
+		// 自动处理前面有没有前缀
+		if(id.substring(0,2) == 'pa'){
+			id = id.substring(2)
+		}
+		// 用纯数字id索引
+		let userDetail= await getPixivUserDetail(id)
+		userDetailList.push(userDetail)
+	})
+	return userDetailList
+}
 
 // 【后台】获取最新推荐作者列表
 export const getRecommendPixivAuthors = async (update=false)=>{
@@ -150,7 +214,7 @@ export const getRecommendPixivAuthors = async (update=false)=>{
 				result = Object.values(result.authors);
 				result.sort(()=>Math.random()-0.5);
 				uni.setStorageSync('recommendPixivAuthors', result);
-				console.log('推荐作者列表更新', result);
+				//console.log('推荐作者列表更新', result);
 			}
 		}
 	}
