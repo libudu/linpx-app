@@ -17,6 +17,7 @@
 	export default {
 		data() {
 			return {
+				isDownload:false,
 				cardButtonList:[
 					{
 						'name':'排行榜',
@@ -76,7 +77,6 @@
 							'width':'170rpx'
 						}
 					}
-					
 				]
 			};
 		},
@@ -140,6 +140,32 @@
 					}
 				}
 			}
+		},
+		async onLoad() {
+			// 当前是APP则检查版本、尝试下载
+			//#ifdef APP-PLUS
+			// 显示头尾
+			this.$android.showNavigation()
+			plus.navigator.setFullscreen(false)
+			// 检查更新
+			let isUpdate = await this.$api.checkUpdate()
+			if(isUpdate){
+				uni.showModal({
+					title:"发现新版本！是否立刻更新！",
+					content:"",
+					showCancel:true,
+					cancelText:"暂不更新",
+					confirmText:"现在下载",
+					success:(res)=>{
+						if(res.confirm){
+							uni.redirectTo({
+								url:"../download_linpx/download_linpx"
+							})
+						}
+					}
+				})
+			}
+			//#endif
 		}
 	}
 </script>

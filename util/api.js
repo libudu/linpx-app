@@ -1,4 +1,4 @@
-const BASE_URL = 'http://api.linpx.linpicio.com/'
+export const BASE_URL = 'http://api.linpx.linpicio.com/'
 //const BASE_URL = 'http://localhost:8000/'
 
 // url:访问的url，必须
@@ -220,4 +220,45 @@ export const getRecommendPixivAuthors = async (update=false)=>{
 	}
 	result = uni.getStorageSync('recommendPixivAuthors')
 	return result
+}
+
+// 获取远程版本号
+export const getRemoteVersion = async ()=>{
+	let result = await myRequest({
+		noLoadTip:true,
+		noFailTip:true,
+		url:"version"
+	})
+	if(result.statusCode == '200'){
+		return result.data
+	}
+	return undefined
+}
+
+// 检查更新：对比版本号，返回是否需要更新
+export const checkUpdate = async()=>{
+	let thisVersion = getApp().globalData.version
+	let remoteVersion = await getRemoteVersion()
+	if(!thisVersion || !remoteVersion){
+		return false
+	}
+	// 当前版本小于服务器版本的时候才需要更新
+	if(thisVersion.split('.') >= remoteVersion.split('.')){
+		return false
+	}
+	return true
+}
+
+// 发送下载请求
+export const downloadLinpx = ()=>{
+	const downloadTask = uni.downloadFile({
+		url: BASE_URL+'download',
+		success: (res) => {
+			if (res.statusCode === 200) {
+				console.log('下载成功');
+				plus.runtime.install(res.tempFilePath)
+			}
+		}
+	})
+	return downloadTask
 }

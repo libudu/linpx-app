@@ -5,7 +5,7 @@
 			<uni-status-bar v-if="statusBar" />
 			<view :style="{ color: color}" class="uni-navbar__header uni-navbar__content_view">
 				<view @tap="onClickLeft" class="uni-navbar__header-btns uni-navbar__header-btns-left uni-navbar__content_view">
-					<view class="uni-navbar__content_view" v-if="leftIcon.length">
+					<view class="uni-navbar__content_view" v-if="leftIcon.length" style="margin-top: 8rpx;">
 						<uni-icons :color="color" :type="leftIcon" size="30" />
 					</view>
 					<view :class="{ 'uni-navbar-btn-icon-left': !leftIcon.length }" class="uni-navbar-btn-text uni-navbar__content_view" v-if="leftText.length">
@@ -142,6 +142,7 @@
 		overflow-x: hidden;
 	}
 
+
 	.uni-nav-bar-right-text {
 		font-size: $text-size;
 	}
@@ -195,7 +196,7 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
-		width: 150rpx;
+		width: 170rpx;
 		justify-content: flex-start;
 	}
 
@@ -203,7 +204,7 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
-		width: 150rpx;
+		width: 170rpx;
 		padding-right: 30rpx;
 		justify-content: flex-end;
 	}

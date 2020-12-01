@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App'
 
+import uView from "uview-ui";
+Vue.use(uView);
+
 // API全局方法
 var api = require('./util/api.js');
 Vue.prototype.$api = api
@@ -12,13 +15,17 @@ Vue.prototype.$gotoPixivNovel = route.gotoPixivNovel
 Vue.prototype.$gotoPixivAuthor = route.gotoPixivAuthor
 Vue.prototype.$navigateTo = route.navigateTo
 
-
 Vue.prototype.$todoToast = (title)=>uni.showToast({
 	title: title || '敬请期待...',
 	icon: "none",
 	duration: 1000
 })
 
+// 设置app的navigation的方法
+//#ifdef APP-PLUS
+var android = require('./util/android.js')
+Vue.prototype.$android = android
+//#endif
 
 Vue.config.productionTip = false
 

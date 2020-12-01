@@ -1,4 +1,7 @@
 {
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [
 		{
             "path" : "pages/launch/launch"
@@ -38,6 +41,15 @@
         }
         ,{
             "path" : "pages/support/support"
+        }
+        ,{
+            "path" : "pages/download_linpx/download_linpx",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
 	"globalStyle": {

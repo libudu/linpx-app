@@ -24,7 +24,7 @@
 		</view>
 		
 		<view class="launch-footer">
-			<view class="author-info">开发者：丢<br>v0.2.3</view>
+			<view class="author-info">开发者：丢<br>v{{version}}</view>
 			<image class="author-logo" src="../../static/logo/author_logo.png" mode="widthFix" />
 		</view>
 	</view>
@@ -34,7 +34,7 @@
 	export default {
 		data() {
 			return {
-				
+				version:""
 			};
 		},
 		methods:{
@@ -48,6 +48,11 @@
 					url:"../search/search"
 				})
 			}
+		},
+		onLoad() {
+			//#ifdef APP-PLUS
+			this.version = getApp().globalData.version
+			//#endif
 		}
 	}
 </script>
