@@ -55,6 +55,9 @@
 				},
 				// 不管怎样，下载完成了就取消字符动画、显示tabBar、撤销遮罩
 				complete: () => {
+					uni.redirectTo({
+						url:"../search/search"
+					})
 					clearInterval(intervalId)
 				}
 			})
