@@ -141,15 +141,14 @@
 				}
 			}
 		},
-		async onLoad() {
+		onLoad() {
 			// 当前是APP则检查版本、尝试下载
 			//#ifdef APP-PLUS
 			// 显示头尾
 			this.$android.showNavigation()
 			plus.navigator.setFullscreen(false)
 			// 检查更新
-			let isUpdate = await this.$api.checkUpdate()
-			if(isUpdate){
+			if(this.$api.checkUpdate()){
 				uni.showModal({
 					title:"发现新版本！是否立刻更新！",
 					content:"",
@@ -158,9 +157,7 @@
 					confirmText:"现在下载",
 					success:(res)=>{
 						if(res.confirm){
-							uni.redirectTo({
-								url:"../download_linpx/download_linpx"
-							})
+							this.$navTo("../downloadLinpx/downloadLinpx?download=true")
 						}
 					}
 				})

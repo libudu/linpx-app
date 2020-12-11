@@ -230,6 +230,7 @@ export const getRecommendPixivAuthors = async (update=false)=>{
 	return result
 }
 
+const $config = require('./config.js')
 // 获取远程版本号
 export const getRemoteVersion = async ()=>{
 	let result = await myRequest({
@@ -238,15 +239,17 @@ export const getRemoteVersion = async ()=>{
 		url:"version"
 	})
 	if(result.statusCode == '200'){
+		$config.set('remoteVersion', result.data)
 		return result.data
 	}
 	return undefined
 }
+getRemoteVersion()
 
 // 检查更新：对比版本号，返回是否需要更新
-export const checkUpdate = async()=>{
-	let thisVersion = getApp().globalData.version
-	let remoteVersion = await getRemoteVersion()
+export const checkUpdate = ()=>{
+	let thisVersion = $config.get('version')
+	let remoteVersion = $config.get('remoteVersion')
 	if(!thisVersion || !remoteVersion){
 		return false
 	}

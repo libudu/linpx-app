@@ -57,7 +57,15 @@
 		"animationType":"pop-in",
 		"animationDuration":"500"
 	},
-		
+	"condition":{
+		"current": 0, 
+		"list":[
+			{
+				"name":"test",
+				"path":"pages/downloadLinpx/downloadLinpx"
+			}
+		]
+	},
 	"tabBar":{
 		"color": "#888",
 		"fontSize":"16px",

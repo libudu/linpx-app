@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<lp-author-item v-for="(info,index) in authorsInfo" :key="index"
+		<lp-author-item class="animation-slide-left" :style="getTransitionDelay(index)"
+		v-for="(info,index) in authorsInfo" :key="info.id"
 		:name="info.name" :id="info.id" :comment="info.comment" :sideImgUrl="info.sideImgUrl" />
 	</view>
 </template>
@@ -9,34 +10,16 @@
 	export default {
 		data(){
 			return {
-				authorsInfo:[]
+				
+			}
+		},
+		methods:{
+			getTransitionDelay(index){
+				return (index<7)?{animationDelay: (index + 1)*0.1 + 's'}:{}
 			}
 		},
 		props:{
-			type:{
-				type:String,
-				default:'authorInfoList'
-			},
-			data:undefined
-		},
-		async created() {
-			let authorIds = undefined
-			switch(this.type){
-				case 'authorInfo':
-					this.authorsInfo = this.data
-					break
-				case 'recommendPixivAuthors':
-					authorIds = await this.$api.getRecommendPixivAuthors()
-					this.authorsInfo = await this.$api.getPixivUserDetailByList(authorIds)
-					break;
-				case 'favAuthors':
-					authorIds = uni.getStorageSync('favAuthors')
-					authorIds = Object.keys(authorIds)
-					this.authorsInfo = await this.$api.getPixivUserDetailByList(authorIds)
-					break;
-				default:
-					console.log("lp-author-list传入type不正确："+this.type);
-			}
+			authorsInfo:Array
 		}
 	}
 </script>

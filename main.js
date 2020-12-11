@@ -4,19 +4,20 @@ import App from './App'
 import uView from "uview-ui";
 Vue.use(uView);
 
-Vue.prototype.$config = {
-	appStart:false
-}
+// 持久+全局配置
+Vue.prototype.$config = require('./util/config.js')
 
+// 分享API
 Vue.prototype.$share = require('./util/share.js')
 
-// API全局方法
+// 数据API
 var api = require('./util/api.js');
 Vue.prototype.$api = api
 
-// 路由全局方法
+// 路由API
 var route = require('./util/route.js');
 Vue.prototype.$navTo = route.navTo
+Vue.prototype.$navBack = uni.navigateBack
 Vue.prototype.$gotoPixivNovel = route.gotoPixivNovel
 Vue.prototype.$gotoPixivAuthor = route.gotoPixivAuthor
 Vue.prototype.$navigateTo = route.navigateTo
@@ -42,19 +43,9 @@ const app = new Vue({
 })
 app.$mount()
 
-
-// 初始化一个存储项，有则跳过，没有则初始化
-let initStorage = function(name, value){
-	if(!uni.getStorageSync(name)){
-		uni.setStorageSync(name, value)
-	}
-}
-initStorage('MaxRecentNovels', 50)
-
 // 加载持久数据到全局变量
 let initStorageToGlobal = function(storageName, defaultValue={}){
 	app.globalData[storageName] = uni.getStorageSync(storageName) || defaultValue
-	//console.log("app.globalData["+storageName+"]: ",app.globalData[storageName]);
 }
 initStorageToGlobal('favNovels')
 initStorageToGlobal('favAuthors')

@@ -46,7 +46,7 @@
 		},
 		onLoad() {
 			//#ifdef APP-PLUS
-			this.version = getApp().globalData.version
+			this.version = this.$config.get('version')
 			//#endif
 		},
 		onShow() {

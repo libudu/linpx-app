@@ -8,13 +8,6 @@ export default {
 		favAuthors:Object,
 		version:String
 	},
-	onLaunch: async function() {
-		//console.log('App Launch');
-		//#ifdef APP-PLUS
-		// 获取当前版本号
-		getApp().globalData.version = plus.runtime.version
-		//#endif
-	},
 	onShow: function() {
 		console.log('App Show');
 		//#ifdef APP-PLUS
@@ -26,12 +19,6 @@ export default {
 				console.log('剪切板获取失败，原因：',res);
 			}
 		})
-		// uni.setClipboardData({
-		// 	data:'114514',
-		// 	success:()=>{
-		// 		console.log('success');
-		// 	}
-		// })
 		//#endif
 	},
 	onHide: function() {
@@ -42,6 +29,7 @@ export default {
 
 <style lang="scss">
 @import './common/ui.scss';
+@import "colorui/animation.css";
 @import "uview-ui/index.scss";
 /* 解决头条小程序组件内引入字体不生效的问题 */
 /* #ifdef MP-TOUTIAO */

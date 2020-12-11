@@ -29,7 +29,7 @@
 			<view class="author-id">pixiv id:{{userInfo.id}}</view>
 			<view class="author-comment">{{userInfo.comment}}</view>
 		</view>
-		<lp-novel-list :data="userNovels" />
+		<lp-novel-list :novels="userNovels" />
 		<lp-bottom-menu ref="menu" :items="menuItems"></lp-bottom-menu>
 	</view>
 </template>

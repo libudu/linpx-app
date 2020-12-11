@@ -24,34 +24,31 @@
 				buttonList:[
 					{
 						'name':'设置',
-						'page':'setting'
+						'url':'devote'
 					},
 					{
 						'name':'高级',
-						'page':'advance'
+						'url':'devote'
 					},
 					{
 						'name':'关于',
-						'page':'about'
+						'url':'devote'
 					},
 					{
-						'name':'打钱',
-						'page':'devote'
+						'name':'检查更新',
+						'url':'../downloadLinpx/downloadLinpx'
 					},
 					{
 						'name':'引导',
-						'page':'guide'
+						'url':'devote'
 					}
 				]
 			};
 		},
 		methods:{
 			clickUserButton(item){
-				if(item.page){
-					console.log("./user_"+item.page);
-					uni.navigateTo({
-						url:"./user_"+item.page
-					})
+				if(item.url){
+					this.$navTo(item.url)
 				}
 			}
 		}
@@ -64,8 +61,8 @@
 		background: $sub-color;
 		box-shadow: 0rpx 0rpx 20rpx #ccc;
 		margin: 50rpx 60rpx;
-		padding: 20rpx 30rpx;
-		height: 160rpx;
+		padding: 13rpx 23rpx;
+		height: 180rpx;
 		border-radius: 100rpx;
 		display: flex;
 		flex-direction: row;

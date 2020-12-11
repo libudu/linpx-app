@@ -125,9 +125,9 @@
 				// 把新的结果插入开头
 				recentNovels[storeId] = true
 				// 如果数量超过了最大数量，那就去掉之后的
-				let MaxRecentNovels = uni.getStorageSync('MaxRecentNovels').data
-				if(Object.keys(recentNovels).length > MaxRecentNovels){
-					recentNovels.splice(MaxRecentNovels, 10);
+				let maxRecentNovels = this.$config.get(maxRecentNovels)
+				if(Object.keys(recentNovels).length > maxRecentNovels){
+					recentNovels.splice(maxRecentNovels, 10);
 				}
 				// 保存回去
 				uni.setStorageSync('recentNovels', recentNovels);
@@ -175,7 +175,6 @@
 				plus.navigator.setFullscreen(true);
 				this.animation.top('-200rpx').step()
 				this.animationData = this.animation.export()
-				this.$android.hideNavigation()
 			},
 			navBarDown(){
 				this.navBarState = 'down'
@@ -204,14 +203,12 @@
 			this.windowHeight = uni.getSystemInfoSync().windowHeight
 		},
 		onShow() {
-			//this.navBarState = 'down'
 			//#ifdef APP-PLUS
-			console.log("show");
+			this.$android.hideNavigation()
 			//#endif
 		},
 		onUnload() {
 			//#ifdef APP-PLUS
-			console.log("hide");
 			plus.navigator.setFullscreen(false);
 			this.$android.showNavigation()
 			//#endif
