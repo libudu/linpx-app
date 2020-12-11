@@ -42,9 +42,6 @@
 				searchTypeIndex:0
 			};
 		},
-		props:[
-			'type'
-		],
 		computed:{
 			searchType(){
 				return this.searchTypeList[this.searchTypeIndex]

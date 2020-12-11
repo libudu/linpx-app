@@ -259,17 +259,3 @@ export const checkUpdate = ()=>{
 	}
 	return true
 }
-
-// 发送下载请求
-export const downloadLinpx = ()=>{
-	const downloadTask = uni.downloadFile({
-		url: BASE_URL+'download',
-		success: (res) => {
-			if (res.statusCode === 200) {
-				console.log('下载成功');
-				plus.runtime.install(res.tempFilePath)
-			}
-		}
-	})
-	return downloadTask
-}

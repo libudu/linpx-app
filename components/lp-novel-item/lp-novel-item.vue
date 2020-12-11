@@ -10,7 +10,6 @@
 				 mode="widthFix" />
 			</lp-fav-item>
 			<view class="novel-title">{{title}}</view>
-			<!-- <lp-fav :id="id" class="novel-fav"></lp-fav> -->
 			<view class="novel-author">
 				{{author}}
 			</view>

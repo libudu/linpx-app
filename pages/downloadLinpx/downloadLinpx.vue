@@ -106,6 +106,7 @@
 										version: $config.get('remoteVersion')
 									}
 									// 记录文件路径和版本
+									this.localLinpxApk = value
 									$config.set('localLinpxApk', value)
 									plus.runtime.install(res.savedFilePath)
 								},
