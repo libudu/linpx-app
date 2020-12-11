@@ -5,21 +5,11 @@
 				<lp-nav-bar type="back" title="小说详情" headerStyle="background: #f6f5ec" fixed>
 					<!-- 这里面的内容是位于navBar右边的插槽 -->
 					<template v-slot:right style="width: 200rpx;">
-						<!-- 其中第一个图标是收藏按钮，用到lp-fav-item实现收藏功能 -->
-						<lp-fav-item storageKey="favNovels" :favItem="'pn'+novel.id" style="width: 70rpx;height: 70rpx;">
-							<template v-slot:no>
-								<image mode="aspectFit" src="../../static/icon/star_idle.png"
-								style="width: 70rpx;height: 70rpx;"></image>
-							</template>
-							<template v-slot:yes>
-								<image mode="aspectFit" src="../../static/icon/star_hover.png"
-								style="width: 70rpx;height: 70rpx;"></image>
-							</template>
-						</lp-fav-item>
-						<view style="width: 10rpx;"></view>
-						<!-- 第二个按钮是菜单，还没做好 -->
-						<image mode="aspectFit" src="../../static/icon/menu.png" style="width: 80rpx;height: 80rpx;"
-						@click="clickMenu"></image>
+						<image mode="aspectFit" src="../../static/icon/share.png" style="width: 54rpx;height: 54rpx;"
+						@click="$share.shareTextWithSystem($share.getShareText('pn', novel.id,`《${novel.title}》`))" />
+						<view style="width: 20rpx;" />
+						<image mode="aspectFit" src="../../static/icon/menu.png" style="width: 70rpx;height: 70rpx;"
+						@click="$refs.menu.show = true"></image>
 					</template>
 				</lp-nav-bar>
 			</view>
@@ -30,13 +20,23 @@
 					
 					<view class="novel-title">
 						{{novel.title}}
+						<lp-fav-item storageKey="favNovels" :favItem="'pn'+novel.id" style="display: inline-block;position: relative;top: 8rpx;">
+							<template v-slot:no>
+								<image mode="aspectFit" src="../../static/icon/star_idle.png"
+								style="width: 58rpx;height: 58rpx;"></image>
+							</template>
+							<template v-slot:yes>
+								<image mode="aspectFit" src="../../static/icon/star_hover.png"
+								style="width: 58rpx;height: 58rpx;"></image>
+							</template>
+						</lp-fav-item>
 					</view> 
 					<view class="novel-author" @click="clickAuthorName">
 						{{novel.author}}
 					</view>
 					<lp-tags class="novel-tags" :tags="novel.tags" />
-					<view class="novel-description">
-						<rich-text :nodes="novel.description"></rich-text>
+					<view class="novel-caption">
+						<rich-text :nodes="novel.caption"></rich-text>
 					</view>
 				</view>
 			</view>
@@ -46,10 +46,12 @@
 			</view>
 		</scroll-view>
 		<view class="novel-bottom-info">
-			<view class="novel-bottom-item" style="padding-left: 30rpx;width: 120rpx;">{{(scrollProcess*100).toFixed(0)}}%</view>
-			<view class="novel-bottom-item" style="padding:0rpx 20rpx 0rpx 10rpx;width: 450rpx;">{{novel.title}}</view>
+			<view class="novel-bottom-item" style="padding-left: 30rpx;width: 150rpx;">{{(scrollProcess*100).toFixed(0)}}%</view>
+			<view class="novel-bottom-item" style="padding:0rpx 20rpx 0rpx 20rpx;width: 420rpx;">{{novel.title}}</view>
 			<view class="novel-bottom-item" style="padding-right: 30rpx;width: 180rpx;">{{novel.author}}</view>
 		</view>
+		
+		<lp-bottom-menu ref="menu" :items="menuItems"></lp-bottom-menu>
 	</view>
 </template>
 
@@ -72,8 +74,29 @@
 				windowHeight:0,
 				
 				animation:undefined,
-				animationData:undefined
-			};
+				animationData:undefined,
+				
+				// 菜单部分
+				showMenu:false,
+				menuItems:[
+					{
+						title:"复制作品信息",
+						callback:()=>{this.$share.copyShareText('pn', this.novel.id,`《${this.novel.title}》`)}
+					},
+					{
+						title:"打开作品Pixiv页面",
+						callback:()=>{this.$share.openPixivUrl('pn', this.novel.id)}
+					},
+					{
+						title:"分享Linpx",
+						callback:this.$share.shareLinpxQrcodeWithSystem
+					},
+					{
+						title:"复制Linpx链接",
+						callback:this.$share.copyLinpxShareText
+					}
+				]
+			}
 		},
 		methods:{
 			getShortTitle(){
@@ -88,7 +111,7 @@
 				}
 			},
 			clickAuthorName(){
-				this.$gotoPixivAuthor(this.novel.userId)
+				this.$gotoPixivAuthor(this.novel.authorId)
 			},
 			clickMenu(){
 				this.$todoToast('菜单还没整上...')
@@ -164,10 +187,16 @@
 		async onLoad(option) {
 			// 尝试获取小说信息
 			this.novel = await this.$api.getPixivNovelDetail(option.id)
+			//console.log(this.novel);
 			this.getShortTitle()
 			// 添加到最近阅读
 			const storeId = "pn"+option.id;
 			this.updateRecentNovels(storeId);
+			// 初始化动画对象
+			this.animation = uni.createAnimation({
+				timingFunction:'ease',
+				duration:500
+			})
 			// 初始动画
 			this.animation.top('0rpx').step()
 			this.animationData = this.animation.export()
@@ -175,14 +204,10 @@
 			this.windowHeight = uni.getSystemInfoSync().windowHeight
 		},
 		onShow() {
+			//this.navBarState = 'down'
 			//#ifdef APP-PLUS
 			console.log("show");
 			//#endif
-			// 初始化动画对象
-			this.animation = uni.createAnimation({
-				timingFunction:'ease',
-				duration:500
-			})
 		},
 		onUnload() {
 			//#ifdef APP-PLUS
@@ -212,8 +237,8 @@
 			flex-shrink: 0;
 		}
 		.novel-title{
-			line-height: 50rpx;
-			font-size: 46rpx;
+			line-height: 60rpx;
+			font-size: 54rpx;
 			font-weight: bold;
 			text-align: center;
 		}
@@ -226,7 +251,7 @@
 			margin-left: 40rpx;
 			width: 500rpx;
 		}
-		.novel-description{
+		.novel-caption{
 			margin-top: 20rpx;
 			font-size: 30rpx;
 			line-height: 36rpx;
@@ -244,7 +269,7 @@
 		width: 100vw;
 		bottom: -5rpx;
 		text-align: center;
-		z-index: 1000000;
+		z-index: 1;
 		background: white;
 		.novel-bottom-item{
 			display: inline-block;

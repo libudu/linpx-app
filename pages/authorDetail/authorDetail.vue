@@ -1,20 +1,28 @@
 <template>
 	<view>
-		<lp-nav-bar type="back" title="作者详情" />
+		<lp-nav-bar type="back" title="作者详情" fixed>
+			<template v-slot:right>
+				<image mode="aspectFit" src="../../static/icon/share.png" style="width: 54rpx;height: 54rpx;"
+				@click="$share.shareTextWithSystem($share.getShareText('pa', userInfo.id, userInfo.name))" />
+				<view style="width: 20rpx;" />
+				<image mode="aspectFit" src="../../static/icon/menu.png" style="width: 70rpx;height: 70rpx;"
+				@click="$refs.menu.show = true" />
+			</template>
+		</lp-nav-bar>
 		<view class="author-info">
-			<img-cache class="author-background-image" :src="userInfo.backgroundImgUrl" preview mode="aspectFill"></img-cache>
+			<img-cache v-if="userInfo.backgroundImgUrl" class="author-background-image" :src="userInfo.backgroundImgUrl" preview mode="aspectFill"></img-cache>
 			
 			<img-cache class="author-side" :src="userInfo.sideImgUrl" preview mode="aspectFill"></img-cache>
 			
 			<view class="author-name">{{userInfo.name}}
-				<lp-fav-item storageKey="favAuthors" :favItem="platformId" style="width: 70rpx;height: 70rpx;display: inline-block;">
+				<lp-fav-item storageKey="favAuthors" :favItem="platformId" style="display: inline-block;position: relative;top:10rpx; left: 20rpx;">
 					<template v-slot:no>
 						<image mode="aspectFit" src="../../static/icon/star_idle.png"
-						style="width: 70rpx;height: 70rpx;"></image>
+						style="width: 74rpx;height: 74rpx;"></image>
 					</template>
 					<template v-slot:yes>
 						<image mode="aspectFit" src="../../static/icon/star_hover.png"
-						style="width: 70rpx;height: 70rpx;"></image>
+						style="width: 74rpx;height: 74rpx;"></image>
 					</template>
 				</lp-fav-item>
 			</view>
@@ -22,6 +30,7 @@
 			<view class="author-comment">{{userInfo.comment}}</view>
 		</view>
 		<lp-novel-list :data="userNovels" />
+		<lp-bottom-menu ref="menu" :items="menuItems"></lp-bottom-menu>
 	</view>
 </template>
 
@@ -30,7 +39,26 @@
 		data() {
 			return {
 				userInfo:{},
-				userNovels:[]
+				userNovels:[],
+				showMenu:false,
+				menuItems:[
+					{
+						title:"复制作者信息",
+						callback:()=>{this.$share.copyShareText('pa', this.userInfo.id, this.userInfo.name)}
+					},
+					{
+						title:"打开作者Pixiv主页",
+						callback:()=>{this.$share.openPixivUrl('pa', this.userInfo.id)}
+					},
+					{
+						title:"分享Linpx",
+						callback:this.$share.shareLinpxQrcodeWithSystem
+					},
+					{
+						title:"复制Linpx链接",
+						callback:this.$share.copyLinpxShareText
+					}
+				]
 			}
 		},
 		computed:{

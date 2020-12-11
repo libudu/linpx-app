@@ -32,8 +32,8 @@
 				case 'favAuthors':
 					authorIds = uni.getStorageSync('favAuthors')
 					authorIds = Object.keys(authorIds)
-					console.log(authorIds);
 					this.authorsInfo = await this.$api.getPixivUserDetailByList(authorIds)
+					break;
 				default:
 					console.log("lp-author-list传入type不正确："+this.type);
 			}

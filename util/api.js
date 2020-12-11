@@ -58,13 +58,8 @@ export const myCacheRequest = async (options)=>{
 }
 
 // 【缓存】获取小说内容
-export const getPixivNovelDetail = async (id, prefix="pn")=>{
-	let storeId = prefix + id
-	// 没有前缀，id中已包含前缀，需要去掉
-	if(!prefix){
-		prefix = id.substring(0,2)
-		id = id.substring(2)
-	}
+export const getPixivNovelDetail = async (id, showToast=true)=>{
+	let storeId = 'pn' + id
 	// 获取内容
 	let novel = await myCacheRequest({
 		url: "novel_detail?id="+id,
@@ -75,11 +70,13 @@ export const getPixivNovelDetail = async (id, prefix="pn")=>{
 		novel = novel.data.body;
 		// novel应该是一个包含小说信息的字典
 		// 如果不存在，或者存在但为Array，则返回undefined
-		if(!novel || (novel instanceof Array)){
-			uni.showToast({
-				icon:"none",
-				title:"该作品不存在"
-			})
+		if(!novel || (novel.length==0)){
+			if(showToast){
+				uni.showToast({
+					icon:"none",
+					title:"该作品不存在"
+				})
+			}
 			return undefined
 		}
 		// 存在则保存
@@ -90,9 +87,11 @@ export const getPixivNovelDetail = async (id, prefix="pn")=>{
 		title: novel.title,
 		caption: novel.description,
 		author: novel.userName,
+		authorId: novel.userId,
 		coverUrl: novel.coverUrl,
 		tags: novel.tags.tags.map((item)=>item.tag),
-		content: novel.content
+		content: novel.content,
+		
 	};
 	return novel
 }
@@ -125,6 +124,12 @@ export const getPixivNovelsByStorageKey = async (key)=>{
 
 // 搜索一个作者的小说
 export const getPixivUserNovels = async (id)=>{
+	// 如果新搜索的作者与上次缓存在global里的一样，那就直接返回
+	let lastData = getApp().globalData.search_novels
+	if(lastData && lastData.authorId == id){
+		return lastData
+	}
+	// 不一样，重新发送请求
 	let rowData = await myRequest({
 		url: "user_novels?id="+id
 	})
@@ -149,13 +154,14 @@ export const getPixivUserNovels = async (id)=>{
 			caption: novel.caption
 		};
 	})
+	rowData.authorId = id
 	// 一切正常，保存到全局变量使用
 	getApp().globalData.search_novels = rowData
 	return rowData;
 }
 
 // 【缓存】获得一个作者的详细信息
-export const getPixivUserDetail = async (id)=>{
+export const getPixivUserDetail = async (id, showToast=true)=>{
 	let userInfo = await myCacheRequest({
 		url: "user_detail?id="+id,
 		storageKey: "pa"+id
@@ -164,10 +170,12 @@ export const getPixivUserDetail = async (id)=>{
 	if(userInfo._statusCode){
 		userInfo = userInfo.data
 		if(userInfo.error){
-			uni.showToast({
-				icon:"none",
-				title:"该作者不存在"
-			})
+			if(showToast){
+				uni.showToast({
+					icon:"none",
+					title:"该作者不存在"
+				})
+			}
 			return undefined
 		}
 		userInfo = userInfo.body

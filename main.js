@@ -4,6 +4,12 @@ import App from './App'
 import uView from "uview-ui";
 Vue.use(uView);
 
+Vue.prototype.$config = {
+	appStart:false
+}
+
+Vue.prototype.$share = require('./util/share.js')
+
 // API全局方法
 var api = require('./util/api.js');
 Vue.prototype.$api = api
@@ -48,7 +54,7 @@ initStorage('MaxRecentNovels', 50)
 // 加载持久数据到全局变量
 let initStorageToGlobal = function(storageName, defaultValue={}){
 	app.globalData[storageName] = uni.getStorageSync(storageName) || defaultValue
-	console.log("app.globalData["+storageName+"]: ",app.globalData[storageName]);
+	//console.log("app.globalData["+storageName+"]: ",app.globalData[storageName]);
 }
 initStorageToGlobal('favNovels')
 initStorageToGlobal('favAuthors')

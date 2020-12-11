@@ -1,5 +1,5 @@
 <template>
-	<view @click.stop="clickFav" style="z-index: 1000;">
+	<view @click.stop="clickFav" style="z-index: 1;">
 		<slot name="yes" v-if="state"></slot>
 		<slot name="no" v-if="!state"></slot>
 		<slot name="default"></slot>

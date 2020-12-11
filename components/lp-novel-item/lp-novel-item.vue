@@ -1,7 +1,7 @@
 <template>
 	<view class="novel-item" @click="clickNovel">
 		<view style="display: flex;flex-direction: column; justify-content: center;">
-			<img-cache class="novel-cover" :src="coverUrl" mode="widthFix" preview />
+			<img-cache class="novel-cover" :src="coverUrl" mode="aspectFill" preview />
 		</view>
 		<view>
 			<lp-fav-item :favItem="platformId" storageKey="favNovels" :tryFavCallBack="tryFavCallBack"

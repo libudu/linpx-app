@@ -28,7 +28,7 @@
 			comment:String,
 			sideImgUrl:""
 		},
-		methods:{ 
+		methods:{
 			clickAuthor(){
 				this.$gotoPixivAuthor(this.id)
 			}

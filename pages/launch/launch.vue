@@ -17,7 +17,7 @@
 						
 						项目交流QQ群：
 						
-						<text @click="clickGroupNum" style="text-decoration: underline;display: block;">576268549(点击加入)</text>
+						<text @click="$share.openLinpxQQGroup" style="text-decoration: underline;display: block;">576268549(点击加入)</text>
 					</text>
 				</view>
 			<button class="launch-button" style="width: 450rpx;" @click="gotoNext">确定</button>
@@ -38,11 +38,6 @@
 			};
 		},
 		methods:{
-			clickGroupNum(){
-				plus.runtime.openURL('mqqwpa://card/show_pslcard?src_type=internal&version=1&uin=576268549&card_type=group&source=qrcode',function (res) {
-					plus.nativeUI.alert("本机没有安装QQ，无法启动");
-				});
-			},
 			gotoNext(){
 				uni.switchTab({
 					url:"../search/search"
@@ -52,6 +47,18 @@
 		onLoad() {
 			//#ifdef APP-PLUS
 			this.version = getApp().globalData.version
+			//#endif
+		},
+		onShow() {
+			//#ifdef APP-PLUS
+			plus.navigator.hideSystemNavigation()
+			plus.navigator.setFullscreen(true)
+			//#endif
+		},
+		onHide() {
+			//#ifdef APP-PLUS
+			this.$android.showNavigation()
+			plus.navigator.setFullscreen(false)
 			//#endif
 		}
 	}

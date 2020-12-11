@@ -10,7 +10,10 @@ export const navigateTo = (option)=>{
 // 封装后的navigateTo
 export const navTo = (url)=>{
 	navigateTo({
-		url
+		url,
+		fail(res){
+			console.log('跳转页面失败，失败原因：',res);
+		}
 	})
 }
 
@@ -18,7 +21,7 @@ export const navTo = (url)=>{
 export const gotoPixivNovel = async (novelId)=>{
 	let novel = await api.getPixivNovelDetail(novelId);
 	if(novel){
-		navTo("../novel_detail/novel_detail?id="+novelId)
+		navTo("../novelDetail/novelDetail?id="+novelId)
 	}
 }
 
@@ -26,6 +29,6 @@ export const gotoPixivNovel = async (novelId)=>{
 export const gotoPixivAuthor = async (userId)=>{
 	let novels = await api.getPixivUserNovels(userId)
 	if(novels){
-		navTo("../author_detail/author_detail?id="+userId)
+		navTo("../authorDetail/authorDetail?id="+userId)
 	}
 }

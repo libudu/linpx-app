@@ -105,16 +105,16 @@
 						waitFlag = true;
 						break;
 					case '作者':
-						this.navigateTo("authors_recommend");
+						this.navigateTo("authorsRecommend");
 						break;
 					case '关注':
-						this.navigateTo("authors_follow");
+						this.navigateTo("authorsFollow");
 						break;
 					case '最近':
-						this.navigateTo("novels_recent");
+						this.navigateTo("novelsRecent");
 						break;
 					case '收藏':
-						this.navigateTo("novels_fav");
+						this.navigateTo("novelsFav");
 						break;
 					case '支持':
 						this.navigateTo("support");
