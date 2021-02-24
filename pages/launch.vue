@@ -5,8 +5,8 @@
 		
 		<view class="launch-main">
 			<view class="main-logo">
-				<image class="pic-logo" src="../../static/logo/pic_logo.png" mode="aspectFit"></image>
-				<image class="word-logo" src="../../static/logo/word_logo.png" mode="aspectFit"></image>
+				<image class="pic-logo" src="@/static/logo/pic_logo.png" mode="aspectFit"></image>
+				<image class="word-logo" src="@/static/logo/word_logo.png" mode="aspectFit"></image>
 			</view>
 				<view class="launch-tips">
 					<!-- <view class="launch-tips-title">使用须知：</view> -->
@@ -25,7 +25,7 @@
 		
 		<view class="launch-footer">
 			<view class="author-info">开发者：丢<br>v{{version}}</view>
-			<image class="author-logo" src="../../static/logo/author_logo.png" mode="widthFix" />
+			<image class="author-logo" src="@/static/logo/author_logo.png" mode="widthFix" />
 		</view>
 	</view>
 </template>
@@ -40,7 +40,7 @@
 		methods:{
 			gotoNext(){
 				uni.switchTab({
-					url:"../search/search"
+					url:"./home"
 				})
 			}
 		},

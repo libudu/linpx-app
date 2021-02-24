@@ -88,8 +88,6 @@
 				let intervalId = setInterval(()=>{
 					this.ellipsisCount = (this.ellipsisCount + 1) % 7
 				},500)
-				// 在下面用this.$config不知道为什么会丢失引用
-				let $config = this.$config
 				// 开始下载
 				this.downloadTask = uni.downloadFile({
 					url: this.$api.BASE_URL+'download',
@@ -99,18 +97,18 @@
 							// 保存文件
 							uni.saveFile({
 								tempFilePath:res.tempFilePath,
-								success(res) {
+								success:(res)=>{
 									// 尝试安装
 									let value = {
 										path: res.savedFilePath,
-										version: $config.get('remoteVersion')
+										version: this.$config.get('remoteVersion')
 									}
 									// 记录文件路径和版本
 									this.localLinpxApk = value
-									$config.set('localLinpxApk', value)
+									this.$config.set('localLinpxApk', value)
 									plus.runtime.install(res.savedFilePath)
 								},
-								fail(res) {
+								fail:(res)=>{
 									uni.showModal({
 										title:"文件保存失败："+res
 									})

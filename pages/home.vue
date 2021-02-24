@@ -23,7 +23,7 @@
 						'name':'排行榜',
 						'show':true,
 						'open':false,
-						'icon':'../../static/emoji/good.png',
+						'icon':'@/static/emoji/good.png',
 						'style':{
 							background: "#aaa",
 							opacity:0.5
