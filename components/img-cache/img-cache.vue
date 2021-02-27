@@ -21,7 +21,7 @@ import storage from './storage'
 import download from './download'
 import { resolveFile } from './index'
 // #endif
-
+const log = console.log;
 /**
  * ImgCache 图片缓存
  * @description APP端图片缓存
@@ -44,10 +44,10 @@ import { resolveFile } from './index'
 export default {
   name: 'ImgCache',
   props: {
-	preview:{
-		type:Boolean,
-		default: false
-	},
+		preview:{
+			type:Boolean,
+			default: false
+		},
     src: {
       type: String
     },
@@ -89,8 +89,8 @@ export default {
   data() {
     return {
       resource: '',
-	  path:'',
-	  url:''
+			path:'',
+			url:''
     }
   },
   computed: {
@@ -116,37 +116,43 @@ export default {
   methods: {
     // 初始化
     init() {
-		// #ifdef APP-PLUS
-		this.fnCache()
-		// #endif
-
+			// #ifdef APP-PLUS
+			this.fnCache()
+			// #endif
     },
     // 获取缓存
     async fnCache() {
-      this.url = this.src // 赋值到新变量，避免下载时 src 更改，从而网络地址和本地地址图片不一致
-
-      if (!/^https?:\/\//.test(this.url)) return this.setSrc() // 判断是否网络地址
+			if(this.src.startsWith('https://i.pximg.net/')) {
+				this.url = 'http://api.linpx.linpicio.com/proxy/pximg?url=' + this.src;
+			} else {
+				this.url = this.src; // 赋值到新变量，避免下载时 src 更改，从而网络地址和本地地址图片不一致
+			}
+			
+      if (!/^https?:\/\//.test(this.url)) return this.setSrc(); // 判断是否网络地址
 
       this.path = storage.select(this.url) // 查询缓存是否存在
 
       if (this.path) {
-        if (await resolveFile(this.path)) return this.setSrc(this.path) // 判断本地文件是否存在 如果存在则显示本地文件
-        storage.delete(this.url) // 如果本地文件不存在则删除缓存数据
+				const fileExist = await resolveFile(this.path);
+        if(fileExist){
+					return this.setSrc(this.path);
+				}// 判断本地文件是否存在 如果存在则显示本地文件
+        storage.delete(this.url); // 如果本地文件不存在则删除缓存数据
       }
-
+			
       this.path = await download(this.url, this.dir) // 下载文件
-      if (this.path) storage.insert(this.url, this.path) // 缓存数据
-      this.setSrc(this.path)
+      if (this.path) storage.insert(this.url, this.path); // 缓存数据
+      this.setSrc(this.path);
     },
     // 发送事件
     fnEvent(emit, event) {
-		if(emit === "click" && this.preview){
-			uni.previewImage({
-				current:this.resource,
-				urls:[this.resource]
-			})
-		}
-		this.$emit(emit, event)
+			if(emit === "click" && this.preview){
+				uni.previewImage({
+					current:this.resource,
+					urls:[this.resource]
+				})
+			}
+			this.$emit(emit, event)
     },
     // 设置图片资源地址
     setSrc(src) {

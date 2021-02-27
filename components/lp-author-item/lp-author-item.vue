@@ -1,6 +1,6 @@
 <template>
 	<view class="author-main" @click="clickAuthor">
-		<img-cache class="author-side" :src="sideImgUrl" mode="aspectFill"/>
+		<img-cache class="author-side" :src="imageUrl" mode="aspectFill"/>
 		<view class="author-info">
 			<view class="author-name">
 				{{name}}
@@ -26,7 +26,7 @@
 			name:String,
 			id:String,
 			comment:String,
-			sideImgUrl:""
+			imageUrl:""
 		},
 		methods:{
 			clickAuthor(){

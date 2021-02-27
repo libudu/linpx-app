@@ -3,7 +3,7 @@ let api = require("./api.js")
 export const navigateTo = (option)=>{
 	uni.navigateTo(Object.assign({
 		animationType:"pop-in",
-		animationDuration:500
+		animationDuration:500,
 	}, option))
 }
 
@@ -19,16 +19,10 @@ export const navTo = (url)=>{
 
 // 跳转到小说页面
 export const gotoPixivNovel = async (novelId)=>{
-	let novel = await api.getPixivNovelDetail(novelId);
-	if(novel){
-		navTo("../novelDetail/novelDetail?id="+novelId)
-	}
+	navTo("../novel/novel?id="+novelId)
 }
 
 // 跳转到作者页面
 export const gotoPixivAuthor = async (userId)=>{
-	let novels = await api.getPixivUserNovels(userId)
-	if(novels){
-		navTo("../authorDetail/authorDetail?id="+userId)
-	}
+	navTo("../author/author?id="+userId)
 }

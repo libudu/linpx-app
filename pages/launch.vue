@@ -39,8 +39,12 @@
 		},
 		methods:{
 			gotoNext(){
+				console.log(123);
 				uni.switchTab({
-					url:"./home"
+					url:"./home",
+					fail: (res) => {
+						console.log(res);
+					}
 				})
 			}
 		},

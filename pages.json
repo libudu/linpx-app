@@ -4,46 +4,46 @@
 	},
 	"pages": [
 		{
-      "path" : "pages/launch"
+      "path": "pages/launch"
     },
 		{
-			"path" : "pages/author/author"
+			"path": "pages/author/author"
 		},
 		{
-      "path" : "pages/home"
+      "path": "pages/home"
     },
 		{
-      "path" : "pages/novelDetail/novelDetail"
+      "path": "pages/novel/novel"
     },
 		{
-      "path" : "pages/novelsLocal/novelsLocal"
+      "path": "pages/local/novels"
     },
 		{
-      "path" : "pages/user/user"
+      "path": "pages/user/user"
     },
 		{
-      "path" : "pages/novelsRecent/novelsRecent"
+			"path": "pages/user/userSetting"
     },
 		{
-			"path":"pages/user/userSetting"
+      "path": "pages/recent/novels"
     },
 		{
-      "path" : "pages/fav/authors"
+      "path": "pages/fav/authors"
     },
 		{
-      "path" : "pages/fav/authors"
+      "path": "pages/fav/novels"
     },
 		{
-      "path" : "pages/recommend/authors"
+      "path": "pages/recommend/authors"
     },
 		{
-      "path" : "pages/support/support"
+      "path": "pages/support/support"
     },
 		{
-      "path" : "pages/downloadLinpx/downloadLinpx"
+      "path": "pages/downloadLinpx/downloadLinpx"
     },
 		{
-      "path" : "pages/easyShare/easyShare"
+      "path": "pages/easyShare/easyShare"
     }
   ],
 	"globalStyle": {
@@ -73,7 +73,7 @@
 		"iconWidth":"30px",
 		"list": [
 		{
-			"pagePath": "pages/search/search",
+			"pagePath": "pages/home",
 			"iconPath":"static/tabBar/se_idle.png",
 			"selectedIconPath":"static/tabBar/se_hover.png"
 		},

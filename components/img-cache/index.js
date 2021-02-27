@@ -8,7 +8,7 @@ export function resolveFile(url) {
     // #ifdef APP-PLUS
     plus.io.resolveLocalFileSystemURL(url, resolve, () => resolve(null))
     // #endif
-
+ 
     // #ifndef APP-PLUS
     resolve(null)
     // #endif

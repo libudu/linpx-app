@@ -9,13 +9,20 @@
 	export default {
 		data() {
 			return {
-				authorIds:[],
 				authorsInfo:[]
 			}
 		},
-		async onShow() {
-			this.authorIds = await this.$api.getRecommendPixivAuthors()
-			this.authorsInfo = await this.$api.getPixivUserDetailByList(this.authorIds)
+		onLoad() {
+			this.$api.getRecommendPixivAuthors().then(res=>{
+				const authorIds = Object.values(res);
+				const authorsInfo = [];
+				for(let id of authorIds) {
+					this.$api.getPixivUser(id).then((authorInfo)=>{
+						authorsInfo.push(authorInfo);
+					})
+				}
+				this.authorsInfo = authorsInfo;
+			})
 		}
 	}
 </script>

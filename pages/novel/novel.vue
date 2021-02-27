@@ -172,20 +172,24 @@
 			},
 			navBarUp(){
 				this.navBarState = 'up'
+				//#ifdef APP-PLUS
 				plus.navigator.setFullscreen(true);
+				//#endif
 				this.animation.top('-200rpx').step()
 				this.animationData = this.animation.export()
 			},
 			navBarDown(){
 				this.navBarState = 'down'
+				//#ifdef APP-PLUS
 				plus.navigator.setFullscreen(false);
+				//#endif
 				this.animation.top('0rpx').step()
 				this.animationData = this.animation.export()
 			}
 		},
 		async onLoad(option) {
 			// 尝试获取小说信息
-			this.novel = await this.$api.getPixivNovelDetail(option.id)
+			this.novel = await this.$api.getPixivNovel(option.id)
 			//console.log(this.novel);
 			this.getShortTitle()
 			// 添加到最近阅读

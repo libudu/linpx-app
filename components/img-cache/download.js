@@ -1,7 +1,5 @@
 import path from 'path'
 
-var queue = [] // 下载队列 避免重复下载
-
 /**
  * 下载文件
  * @param {string} url 要下载文件资源地址
@@ -10,18 +8,14 @@ var queue = [] // 下载队列 避免重复下载
  */
 function download(url, dir) {
   return new Promise(resolve => {
-	
-    if (queue.includes(url)) return
-    queue.push(url)
+		console.log(url);
     const task = plus.downloader.createDownload(
       url,
-      dir ? { filename: filename(url, dir) } : {},
+      dir ? { filename: filename(url, dir), timeout: 2, retry:1, retryInterval:1 } : {},
       (download, status) => {
-        queue.splice(queue.indexOf(url), 1)
         resolve(status === 200 ? download.filename : null)
       }
     )
-	task.setRequestHeader('Referer',"https://www.pixiv.net/")
     task.start()
   })
 }

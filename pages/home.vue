@@ -23,7 +23,7 @@
 						'name':'排行榜',
 						'show':true,
 						'open':false,
-						'icon':'@/static/emoji/good.png',
+						'icon':'../static/emoji/good.png',
 						'style':{
 							background: "#aaa",
 							opacity:0.5
@@ -33,7 +33,7 @@
 						name:'分类',
 						show:true,
 						open:false,
-						icon:'../../static/emoji/fire.png',
+						icon:'../static/emoji/fire.png',
 						style:{
 							background: "#aaa",
 							opacity:0.5,
@@ -43,7 +43,7 @@
 						name:'作者',
 						show:true,
 						open:false,
-						icon:'../../static/emoji/sun.png',
+						icon:'../static/emoji/sun.png',
 						imgStyle:{
 							opacity:0.6
 						}
@@ -52,25 +52,25 @@
 						name:'关注',
 						show:true,
 						open:false,
-						icon:'../../static/emoji/kiss.png'
+						icon:'../static/emoji/kiss.png'
 					},
 					{
 						name:'最近',
 						show:true,
 						open:false,
-						icon:'../../static/emoji/drop.png'
+						icon:'../static/emoji/drop.png'
 					},
 					{
 						name:'收藏',
 						show:true,
 						open:false,
-						icon:'../../static/emoji/star.png'
+						icon:'../static/emoji/star.png'
 					},
 					{
 						name:'支持',
 						show:true,
 						open:false,
-						icon:'../../static/emoji/cute.png',
+						icon:'../static/emoji/cute.png',
 						imgStyle:{
 							'margin-left':"20rpx",
 							'margin-top':'-10rpx',
@@ -88,40 +88,29 @@
 			}
 		},
 		methods:{
-			navigateTo(pageName){
-				this.$navigateTo({
-					url:`../${pageName}/${pageName}`,
-					animationType:"pop-in",
-					animationDuration:200
-				})
-			},
 			clickCardButton(e){
-				let waitFlag = false;
 				switch(e){
 					case '排行榜':
-						waitFlag = true;
+						this.$todoToast()
 						break;
 					case '分类':
-						waitFlag = true;
+						this.$todoToast()
 						break;
 					case '作者':
-						this.navigateTo("authorsRecommend");
+						this.$navTo("recommend/authors");
 						break;
 					case '关注':
-						this.navigateTo("authorsFollow");
+						this.$navTo("fav/authors");
 						break;
 					case '最近':
-						this.navigateTo("novelsRecent");
+						this.$navTo("recent/novels");
 						break;
 					case '收藏':
-						this.navigateTo("novelsFav");
+						this.$navTo("fav/novels");
 						break;
 					case '支持':
-						this.navigateTo("support");
+						this.$navTo("support/support");
 						break;
-				}
-				if(waitFlag){
-					this.$todoToast()
 				}
 			},
 			// 根据输入，开始搜索
@@ -148,7 +137,7 @@
 			this.$android.showNavigation()
 			plus.navigator.setFullscreen(false)
 			// 检查更新
-			if(this.$api.checkUpdate()){
+			if(false){
 				uni.showModal({
 					title:"发现新版本！是否立刻更新！",
 					content:"",

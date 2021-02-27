@@ -1,35 +1,29 @@
 class Storage {
   constructor(name) {
     this.name = name
-  }
-  // 获取缓存
-  getStorage() {
-    return uni.getStorageSync(this.name) || {}
+		this.storage = uni.getStorageSync(this.name) || {};
   }
   // 设置缓存
-  setStorage(data = {}) {
-    uni.setStorageSync(this.name, data)
-    return data
+  setStorage() {
+    uni.setStorageSync(this.name, this.storage);
   }
   // 插入数据
   insert(url, path) {
-    let storage = this.getStorage()
-    storage[url] = path
-    this.setStorage(storage)
-    return storage
+    this.storage[url] = path
+    this.setStorage()
   }
   // 删除数据
   delete(url) {
-    const storage = this.getStorage()
-	delete storage[url]
-    this.setStorage(storage)
-    return storage
+		delete this.storage[url];
+		console.log('delete storage record');
+    this.setStorage();
   }
   // 查询数据
   select(url) {
-    const storage = this.getStorage()
-    return storage[url]
+    return this.storage[url];
   }
 }
 
 export default new Storage('imgcache')
+
+console.log(uni.getStorageSync('imgcache'));

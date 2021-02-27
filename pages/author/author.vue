@@ -10,9 +10,9 @@
 			</template>
 		</lp-nav-bar>
 		<view class="author-info">
-			<img-cache v-if="userInfo.backgroundImgUrl" class="author-background-image" :src="userInfo.backgroundImgUrl" preview mode="aspectFill"></img-cache>
+			<img-cache v-if="userInfo.backgroundUrl" class="author-background-image" :src="userInfo.backgroundUrl" preview mode="aspectFill"></img-cache>
 			
-			<img-cache class="author-side" :src="userInfo.sideImgUrl" preview mode="aspectFill"></img-cache>
+			<img-cache class="author-side" :src="userInfo.imageUrl" preview mode="aspectFill"></img-cache>
 			
 			<view class="author-name">{{userInfo.name}}
 				<lp-fav-item storageKey="favAuthors" :favItem="platformId" style="display: inline-block;position: relative;top:10rpx; left: 20rpx;">
@@ -67,17 +67,9 @@
 			}
 		},
 		async onLoad(options) {
-			// 初始化各种信息
-			this.userInfo = await this.$api.getPixivUserDetail(options.id)
-			// 初始化小说列表，如果全局变量中没有缓存，那就再发一次请求
-			let novels = getApp().globalData.search_novels
-			if(!novels){
-				novels = await this.$api.getPixivUserNovels(options.id)
-			}
-			novels = novels.novels
-			for(var i in novels){
-				this.userNovels.push(novels[i])
-			}
+			this.userInfo = await this.$api.getPixivUser(options.id);
+			const novelIdList = Object.keys(this.userInfo.novels);
+			this.userNovels = await this.$api.getPixivNovelProfiles(novelIdList);
 		}
 	}
 </script>
