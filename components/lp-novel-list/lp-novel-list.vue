@@ -1,7 +1,7 @@
 <template>
-	<view>
+	<view style="margin: 10px 0;">
 		<lp-novel-item class="animation-slide-left" :style="getTransitionDelay(index)"
-		 v-for="(novel,index) in novels" :key="novel.id"
+		 v-for="(novel, index) in novels" :key="novel.id"
 		:title="novel.title" :caption="novel.caption" :id="novel.id"
 		:author="novel.author" :coverUrl="novel.coverUrl" :tags="novel.tags" />
 	</view>
@@ -14,7 +14,7 @@
 			}
 		},
 		props:{
-			'novels':Array
+			novels:Array
 		},
 		methods:{
 			getTransitionDelay(index){

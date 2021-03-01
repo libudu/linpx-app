@@ -44,8 +44,11 @@
     },
 		{
       "path": "pages/easyShare/easyShare"
-    }
-  ],
+    },
+		{
+			"path" : "pages/chat/chat"
+		}
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "",
@@ -59,7 +62,7 @@
 		"list":[
 			{
 				"name":"test",
-				"path":"pages/downloadLinpx/downloadLinpx"
+				"path":"pages/chat/chat"
 			}
 		]
 	},
@@ -78,7 +81,7 @@
 			"selectedIconPath":"static/tabBar/se_hover.png"
 		},
 		{
-			"pagePath": "pages/novelsLocal/novelsLocal",
+			"pagePath": "pages/local/novels",
 			"iconPath":"static/tabBar/sa_idle.png",
 			"selectedIconPath":"static/tabBar/sa_hover.png"
 		},

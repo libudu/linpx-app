@@ -28,11 +28,6 @@ export const getPixivNovel = (id)=>{
 	return linpxRequest(`/pixiv/novel/${id}`);
 }
 
-// 用户信息
-export const getPixivUser = (id)=>{
-	return linpxRequest(`/pixiv/user/${id}`);
-}
-
 // 一系列小说基本信息
 export const getPixivNovelProfiles = (idList)=>{
 	let query = '';
@@ -40,6 +35,16 @@ export const getPixivNovelProfiles = (idList)=>{
 		query += `ids[]=${id}&`;
 	}
 	return linpxRequest(`/pixiv/novels?${query}`);
+}
+
+// 用户信息
+export const getPixivUser = (id)=>{
+	return linpxRequest(`/pixiv/user/${id}`);
+}
+
+// 获取一系列用户信息
+export const getPixivUserList = (idList)=>{
+	return Promise.all(idList.map(id=>getPixivUser(id)));
 }
 
 // 推荐作者列表

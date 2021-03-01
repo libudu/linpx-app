@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="margin: 10px 0;">
 		<lp-author-item class="animation-slide-left" :style="getTransitionDelay(index)"
 		v-for="(info,index) in authorsInfo" :key="info.id"
 		:name="info.name" :id="info.id" :comment="info.comment" :imageUrl="info.imageUrl" />

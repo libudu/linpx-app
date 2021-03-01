@@ -28,10 +28,18 @@
 }
 $pixiv-blue: rgb(0,150,250);
 $card-backgrond: rgb(246,245,236);
+
 /* 颜色变量 */
+// 主题橘色
 $main-color: #f1be7f;
+// 主题深橘色
 $main-color-deep: #e0a34d;
+// 主题亮橘色
 $main-color-light: rgba($main-color, 0.2);
+
+$tim-blue: rgb(42,124,254);
+$tim-blue-deep: rgb(35, 107, 214);
+
 /* 行为相关颜色 */
 $uni-color-primary: #007aff;
 $uni-color-success: #4cd964;

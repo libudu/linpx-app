@@ -119,6 +119,10 @@ export default {
 			// #ifdef APP-PLUS
 			this.fnCache()
 			// #endif
+			
+			// #ifndef APP-PLUS
+			this.resource = 'http://api.linpx.linpicio.com/proxy/pximg?url=' + this.src;
+			// #endif
     },
     // 获取缓存
     async fnCache() {

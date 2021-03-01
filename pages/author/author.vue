@@ -35,6 +35,7 @@
 </template>
 
 <script>
+	import { makePixivNovelsLoader } from '../../util/lazyDataList.js';
 	export default {
 		data() {
 			return {
@@ -67,9 +68,14 @@
 			}
 		},
 		async onLoad(options) {
+			// 获取小说信息
 			this.userInfo = await this.$api.getPixivUser(options.id);
 			const novelIdList = Object.keys(this.userInfo.novels);
-			this.userNovels = await this.$api.getPixivNovelProfiles(novelIdList);
+			this.loadNovels = makePixivNovelsLoader(this.userNovels, novelIdList);
+			this.loadNovels();
+		},
+		onReachBottom() {
+			this.loadNovels();
 		}
 	}
 </script>

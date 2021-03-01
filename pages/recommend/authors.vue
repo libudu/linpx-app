@@ -6,6 +6,7 @@
 </template>
 
 <script>
+	import { makePixivUsersLoader } from '../../util/lazyDataList.js';
 	export default {
 		data() {
 			return {
@@ -15,14 +16,12 @@
 		onLoad() {
 			this.$api.getRecommendPixivAuthors().then(res=>{
 				const authorIds = Object.values(res);
-				const authorsInfo = [];
-				for(let id of authorIds) {
-					this.$api.getPixivUser(id).then((authorInfo)=>{
-						authorsInfo.push(authorInfo);
-					})
-				}
-				this.authorsInfo = authorsInfo;
+				this.loadAuthors = makePixivUsersLoader(this.authorsInfo, authorIds);
+				this.loadAuthors();
 			})
+		},
+		onReachBottom() {
+			this.loadAuthors();
 		}
 	}
 </script>

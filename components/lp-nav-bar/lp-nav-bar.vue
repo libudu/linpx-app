@@ -1,8 +1,9 @@
 <template>
 	<view>
 		<uni-nav-bar :leftText="leftText" :leftIcon="leftIcon" :title="title"
-		:fixed="fixed" :headerStyle="headerStyle"
-		@clickLeft="leftClickHandle">
+			:fixed="fixed" :headerStyle="headerStyle"
+			@clickLeft="leftClickHandle"
+		>
 			<template v-slot:right>
 				<slot name="right"></slot>
 			</template>

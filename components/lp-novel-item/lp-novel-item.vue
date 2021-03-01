@@ -4,7 +4,7 @@
 			<img-cache class="novel-cover" :src="coverUrl" mode="aspectFill" preview />
 		</view>
 		<view>
-			<lp-fav-item :favItem="platformId" storageKey="favNovels" :tryFavCallBack="tryFavCallBack"
+			<lp-fav-item :favItem="platformId" storageKey="favNovels"
 			@favChange="favChange" @initFav="initFav">
 				<image :class="isFav?'novel-fav':'novel-unfav'" :src="isFav?'../../static/icon/bookmark_hover.png':'../../static/icon/bookmark_idle.png'"
 				 mode="widthFix" />
